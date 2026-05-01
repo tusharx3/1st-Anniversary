@@ -10,11 +10,9 @@
     --primary-pink: #ff85a2;
     --blush: #ffb7c5;
     --petal: #fff0f3;
-    --rose-gold: #eeb4b4;
-    --cream: #fff9fa;
     --deep-pink: #d63384;
     --berry: #a4133c;
-    --soft-white: #ffffff;
+    --cream: #fff9fa;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,216 +21,227 @@
     background: var(--cream);
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
+    height: 100vh;
   }
 
-  /* ===== FLOATING HEARTS ===== */
-  .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .heart-float { position: absolute; bottom: -60px; font-size: 1.2rem; opacity: 0; animation: floatUp linear infinite; }
-  @keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-    100% { transform: translateY(-110vh) rotate(30deg); opacity: 0; }
+  /* Admin Toggle */
+  .admin-only { display: none !important; }
+  body.admin-mode .admin-only { display: inline-block !important; }
+
+  /* Animated Background */
+  .bg-gradient {
+    position: fixed; inset: 0;
+    background: linear-gradient(45deg, #fff0f3, #ffc2d1, #fff9fa, #ffb7c5);
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+    z-index: -1;
+  }
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
-  /* ===== PIN LOCK SCREEN ===== */
-  #pin-screen {
-    position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-    background: radial-gradient(circle, #ffc2d1 0%, #ff85a2 100%);
-    transition: 0.8s ease;
+  /* PIN Screen */
+  #lock-screen {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--petal); transition: 1s ease-in-out;
   }
-  #pin-screen.unlocked { opacity: 0; visibility: hidden; }
-
-  .pin-box {
-    text-align: center; padding: 3rem 2.5rem; background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px;
-    backdrop-filter: blur(15px); max-width: 360px; width: 90%;
-  }
-
-  .pin-btn {
-    width: 100%; padding: 0.9rem; background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-    border: none; border-radius: 12px; color: white; font-family: 'Great Vibes', cursive;
-    font-size: 1.5rem; cursor: pointer; margin-top: 10px;
+  .lock-box {
+    text-align: center; padding: 3rem; background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px); border-radius: 30px; border: 1px solid var(--blush);
+    box-shadow: 0 20px 40px rgba(214, 51, 132, 0.1);
+    animation: fadeIn 1.5s ease;
   }
 
-  /* ===== ADMIN PANEL UI (Hidden by default) ===== */
-  .admin-only { display: none; }
-  body.is-admin .admin-only { display: block; }
-
-  #pin-input {
-    width: 100%; padding: 0.9rem; border: 2px solid var(--blush); border-radius: 12px;
-    text-align: center; font-size: 1.3rem; outline: none;
+  input[type="password"] {
+    width: 100%; padding: 12px; margin: 15px 0; border-radius: 15px;
+    border: 2px solid var(--blush); text-align: center; font-size: 1.2rem; outline: none;
   }
 
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 2rem; position: relative; z-index: 1;
-  }
+  /* Main Content Animation */
+  #main-content { opacity: 0; transform: scale(0.9); transition: 1.5s ease-out; }
+  #main-content.visible { opacity: 1; transform: scale(1); }
 
-  .anniversary-name {
-    font-family: 'Great Vibes', cursive; font-size: clamp(4rem, 12vw, 9rem);
-    color: var(--deep-pink); margin: 10px 0;
-  }
-
-  /* ===== MODALS ===== */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 500; background: rgba(164, 19, 60, 0.4);
-    backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 1.5rem;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--soft-white); border-radius: 28px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
-  .modal-header { background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink)); padding: 2rem; color: white; text-align: center; }
-  .modal-body { padding: 2rem; }
-
-  /* Grid & Story */
-  .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem; }
-  .photo-slot { aspect-ratio: 1; border-radius: 14px; border: 2px solid var(--blush); overflow: hidden; background: var(--petal); cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+  .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
   
-  .admin-logout { position: fixed; bottom: 20px; left: 20px; z-index: 1000; background: var(--berry); color: white; padding: 10px; border-radius: 10px; cursor: pointer; border: none; font-size: 0.8rem; }
+  .anniversary-name {
+    font-family: 'Great Vibes', cursive; font-size: clamp(4rem, 15vw, 8rem);
+    color: var(--deep-pink); text-shadow: 3px 3px 10px rgba(214, 51, 132, 0.2);
+    animation: floating 3s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Hearts */
+  .heart { position: absolute; color: var(--primary-pink); animation: heartFloat 10s linear infinite; opacity: 0.6; pointer-events: none; }
+  @keyframes heartFloat {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 15px 35px; border-radius: 50px; border: none; cursor: pointer;
+    font-size: 1.2rem; transition: 0.4s; background: white; border: 1px solid var(--blush);
+    color: var(--deep-pink); box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin: 10px;
+  }
+  .btn:hover { background: var(--deep-pink); color: white; transform: scale(1.1); box-shadow: 0 10px 25px rgba(214, 51, 132, 0.3); }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; z-index: 2000;
+  }
+  .modal { background: white; padding: 2rem; border-radius: 30px; width: 90%; max-width: 600px; animation: slideUp 0.5s ease; }
+  @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+  .slot { aspect-ratio: 1; background: var(--petal); border-radius: 15px; border: 2px dashed var(--blush); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+  .slot img { width: 100%; height: 100%; object-fit: cover; }
 </style>
 </head>
 <body>
 
-<div class="hearts-bg" id="heartsBg"></div>
+<div class="bg-gradient"></div>
 
-<!-- PIN SCREEN -->
-<div id="pin-screen">
-  <div class="pin-box">
-    <span style="font-size: 3rem;">🌸</span>
-    <h2 class="pin-title" style="font-family:'Great Vibes'; color: var(--berry);">For Jhinuk's Eyes Only</h2>
-    <p style="margin-bottom: 20px; color: var(--deep-pink);">Enter the special date to enter</p>
-    <input type="text" id="pin-input" placeholder="DDMMYYYY" />
-    <button class="pin-btn" onclick="login()">Enter Forever ♾️</button>
-    <p id="error-msg" style="color: var(--berry); margin-top: 10px; font-size: 0.9rem; font-weight: bold;"></p>
+<!-- USER LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem; color: var(--berry);">For My Love 🌸</h2>
+    <p style="font-size: 0.9rem; color: var(--deep-pink);">Enter our special date (DDMMYYYY)</p>
+    <input type="password" id="user-pin" maxlength="8" placeholder="••••••••">
+    <button class="btn" onclick="checkUserPin()" style="background: var(--primary-pink); color: white; width: 100%;">Enter</button>
+    <p id="error" style="color: var(--berry); font-size: 0.8rem; margin-top: 10px;"></p>
   </div>
 </div>
 
-<!-- MAIN SITE -->
-<div id="main-content" style="display: none;">
-  <button class="admin-logout admin-only" onclick="logout()">Logout Admin</button>
+<!-- MAIN CONTENT -->
+<div id="main-content">
+  <nav style="position: fixed; top: 20px; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 100;">
+    <button class="btn" onclick="openModal('letter-modal')">💌 Letter</button>
+    <button class="btn" onclick="openModal('gallery-modal')">📸 Gallery</button>
+    <button class="btn admin-btn" id="admin-login-btn" onclick="promptAdmin()" style="border-color: var(--berry);">🔑 Admin</button>
+    <button class="btn admin-only" onclick="logoutAdmin()" style="background: var(--berry); color: white;">Logout</button>
+  </nav>
 
   <section class="hero">
-    <p style="letter-spacing: 5px; color: var(--primary-pink); font-weight: bold;">✦ HAPPY ANNIVERSARY ✦</p>
+    <p style="letter-spacing: 10px; color: var(--primary-pink); font-weight: bold; margin-bottom: 20px;">I LOVE YOU</p>
     <h1 class="anniversary-name">Jhinuk</h1>
-    <p style="color: var(--rose-gold); margin-bottom: 20px;">🌸 <span>another beautiful year of us</span> 🌸</p>
-    
-    <div style="display: flex; gap: 15px;">
-        <button class="pin-btn" style="width: auto; padding: 15px 30px;" onclick="openModal('letter-modal')">Our Letter 💌</button>
-        <button class="pin-btn" style="width: auto; padding: 15px 30px; background: var(--primary-pink);" onclick="openModal('story-modal')">Our Story ♾️</button>
-    </div>
+    <div id="hearts-container"></div>
   </section>
 </div>
 
 <!-- LETTER MODAL -->
-<div class="modal-overlay" id="letter-modal">
+<div class="modal-overlay" id="letter-modal" onclick="closeOnOverlay(event, 'letter-modal')">
   <div class="modal">
-    <div class="modal-header">
-      <button style="float: right; background: none; border: none; color: white; cursor: pointer;" onclick="closeModal('letter-modal')">✕</button>
-      <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem;">To My Dearest Jhinuk</h2>
+    <h2 style="font-family: 'Great Vibes'; color: var(--deep-pink); text-align: center; font-size: 2rem;">My Dear Jhinuk,</h2>
+    <div style="margin-top: 20px; line-height: 1.8; font-style: italic; color: var(--berry);">
+      Another year of us, another year of magic. You are the best thing that ever happened to me. <br><br>
+      Happy Anniversary, my love! 🌸
     </div>
-    <div class="modal-body">
-      <div style="font-style: italic; line-height: 1.8; color: var(--berry); background: var(--petal); padding: 20px; border-radius: 15px;">
-        My Dearest Jhinuk,
-        Another year has passed, and my love for you has only grown deeper. You are my light, my happiness, and my soulmate. Thank you for being by my side.
-      </div>
-      <h3 style="margin: 20px 0; color: var(--deep-pink);">Our Memories (Admin Only to Edit)</h3>
-      <div class="photos-grid" id="photosGrid"></div>
-    </div>
+    <button class="btn" onclick="closeModal('letter-modal')" style="width: 100%; margin-top: 20px;">Close</button>
   </div>
 </div>
 
-<!-- STORY MODAL -->
-<div class="modal-overlay" id="story-modal">
-    <div class="modal">
-      <div class="modal-header">
-        <button style="float: right; background: none; border: none; color: white; cursor: pointer;" onclick="closeModal('story-modal')">✕</button>
-        <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem;">The Jhinuk & Madhujoy Story</h2>
-      </div>
-      <div class="modal-body" id="storyTimeline">
-        <!-- Story items here -->
-      </div>
-    </div>
+<!-- GALLERY MODAL -->
+<div class="modal-overlay" id="gallery-modal" onclick="closeOnOverlay(event, 'gallery-modal')">
+  <div class="modal">
+    <h2 style="font-family: 'Great Vibes'; color: var(--deep-pink); text-align: center; font-size: 2rem;">Our Memories</h2>
+    <p class="admin-only" style="text-align: center; font-size: 0.8rem; color: green;">Admin Mode: Active. Click to upload.</p>
+    <div class="photo-grid" id="photoGrid"></div>
+    <button class="btn" onclick="closeModal('gallery-modal')" style="width: 100%; margin-top: 20px;">Close</button>
+  </div>
 </div>
 
-<input type="file" id="fileInput" style="display: none;" accept="image/*" />
+<input type="file" id="adminFile" style="display: none;" accept="image/*">
 
 <script>
-  const PIN = "02052025";
+  const USER_PIN = "02052025";
+  const ADMIN_PASS = "admin123"; // Apni eta change korte parben
 
-  // Login Logic
-  function login() {
-    const input = document.getElementById('pin-input').value;
-    if (input === PIN) {
-      localStorage.setItem('isAdmin', 'true');
-      showMainContent();
+  // 1. PIN Check
+  function checkUserPin() {
+    const val = document.getElementById('user-pin').value;
+    if(val === USER_PIN) {
+      document.getElementById('lock-screen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('main-content').classList.add('visible');
+        createHearts();
+      }, 1000);
     } else {
-      document.getElementById('error-msg').innerText = "Incorrect date, try again love!";
+      document.getElementById('error').innerText = "Incorrect PIN!";
+      document.getElementById('user-pin').value = "";
     }
   }
 
-  function logout() {
-    localStorage.removeItem('isAdmin');
-    location.reload();
-  }
-
-  function showMainContent() {
-    document.getElementById('pin-screen').classList.add('unlocked');
-    document.getElementById('main-content').style.display = 'block';
-    if (localStorage.getItem('isAdmin') === 'true') {
-      document.body.classList.add('is-admin');
+  // 2. Admin Logic
+  function promptAdmin() {
+    const pass = prompt("Enter Admin Password to Edit:");
+    if(pass === ADMIN_PASS) {
+      document.body.classList.add('admin-mode');
+      document.getElementById('admin-login-btn').style.display = 'none';
+      alert("Admin Access Activated! You can now upload photos.");
+    } else {
+      alert("Unauthorized access!");
     }
   }
 
-  // Modals
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+  function logoutAdmin() {
+    document.body.classList.remove('admin-mode');
+    document.getElementById('admin-login-btn').style.display = 'inline-block';
+  }
 
-  // Hearts Animation
+  // 3. Animations
   function createHearts() {
-    const bg = document.getElementById('heartsBg');
-    const emojis = ['🌸','💗','💍','✨','💕'];
-    for (let i = 0; i < 20; i++) {
-      const el = document.createElement('div');
-      el.className = 'heart-float';
-      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (5 + Math.random() * 10) + 's';
-      bg.appendChild(el);
-    }
+    const container = document.getElementById('hearts-container');
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '🌸';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      container.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }, 500);
   }
-  createHearts();
 
-  // Photo System
-  const grid = document.getElementById('photosGrid');
-  let currentTarget = null;
+  // 4. Modal Logic
+  function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+  function closeOnOverlay(e, id) { if(e.target === document.getElementById(id)) closeModal(id); }
 
-  for(let i=0; i<12; i++) {
+  // 5. Gallery Logic
+  const grid = document.getElementById('photoGrid');
+  let currentSlot = null;
+
+  for(let i=0; i<9; i++) {
     const slot = document.createElement('div');
-    slot.className = 'photo-slot';
+    slot.className = 'slot';
     slot.innerHTML = '<span>📸</span>';
     slot.onclick = function() {
-        if(document.body.classList.contains('is-admin')) {
-            currentTarget = this;
-            document.getElementById('fileInput').click();
-        } else {
-            alert("Only Admin can edit photos!");
-        }
+      if(document.body.classList.contains('admin-mode')) {
+        currentSlot = this;
+        document.getElementById('adminFile').click();
+      }
     };
     grid.appendChild(slot);
   }
 
-  document.getElementById('fileInput').onchange = function(e) {
+  document.getElementById('adminFile').onchange = function(e) {
     const reader = new FileReader();
-    reader.onload = function(event) {
-        currentTarget.innerHTML = `<img src="${event.target.result}" />`;
+    reader.onload = (ev) => {
+      currentSlot.innerHTML = `<img src="${ev.target.result}">`;
     };
     reader.readAsDataURL(e.target.files[0]);
   };
-
-  // Auto-load if already logged in
-  if (localStorage.getItem('isAdmin') === 'true') {
-    showMainContent();
-  }
 </script>
 </body>
 </html>
