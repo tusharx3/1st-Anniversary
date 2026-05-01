@@ -9,246 +9,203 @@
   :root {
     --bg-pink: #fce4ec;
     --main-pink: #e91e63;
-    --dark-pink: #ad1457;
-    --glass: rgba(255, 255, 255, 0.25);
+    --dark-panel: #1a0a0e; /* Image theke neya dark theme */
+    --text-gray: #555;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background-color: var(--bg-pink); font-family: 'Montserrat', sans-serif; overflow: hidden; height: 100vh; }
 
-  body {
-    background-color: var(--bg-pink);
-    font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Admin Toggle Logic */
   .admin-only { display: none !important; }
   body.admin-mode .admin-only { display: block !important; }
 
-  /* Background Decorations */
-  .confetti {
-    position: fixed; width: 8px; height: 8px; background: #f48fb1;
-    opacity: 0.6; animation: fall linear infinite; z-index: 0;
-  }
-  @keyframes fall {
-    to { transform: translateY(110vh) rotate(360deg); }
-  }
-
-  /* Unlock Screen */
-  #unlock-screen {
-    position: fixed; inset: 0; z-index: 1000;
-    background: radial-gradient(circle, #fff0f3, #fce4ec);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: 1s ease-in-out;
-  }
-  .input-box {
-    background: white; padding: 40px; border-radius: 30px;
-    box-shadow: 0 15px 35px rgba(233, 30, 99, 0.1); text-align: center;
-  }
-  .pin-input {
-    width: 200px; padding: 12px; border: 2px solid #f8bbd0;
-    border-radius: 10px; text-align: center; font-size: 1.5rem;
-    margin: 20px 0; outline: none; letter-spacing: 5px;
-  }
-
-  /* Main Container */
-  #main-content {
-    opacity: 0; display: none; width: 100%; max-width: 1000px;
-    text-align: center; z-index: 1; padding: 20px;
-  }
-
-  .header-text { font-size: 1rem; letter-spacing: 5px; color: #444; margin-bottom: 10px; }
-  
-  .name-text {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(5rem, 15vw, 9rem);
-    color: var(--main-pink);
-    text-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
-    margin: -20px 0;
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-  @keyframes glow {
-    from { text-shadow: 0 0 10px #f8bbd0, 0 0 20px #f8bbd0; }
-    to { text-shadow: 0 0 20px #f48fb1, 0 0 30px #f48fb1; }
-  }
-
-  .sub-text { font-size: 0.8rem; letter-spacing: 3px; color: #888; margin-bottom: 40px; }
-
-  .quote {
-    font-family: 'Playfair Display', serif;
-    font-style: italic; font-size: 1.1rem; color: #555;
-    max-width: 600px; margin: 0 auto 50px; line-height: 1.6;
-  }
-
-  /* Image Style Buttons */
-  .button-container {
-    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
-  }
-  .card-btn {
-    width: 280px; padding: 40px 20px; border-radius: 25px;
-    background: linear-gradient(135deg, #ec407a, #ad1457);
+  /* Main Landing Design (Follows Image 1) */
+  .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 1; position: relative; }
+  .name-text { font-family: 'Great Vibes', cursive; font-size: clamp(5rem, 15vw, 9rem); color: var(--main-pink); margin: -10px 0; }
+  .card-btn { 
+    width: 280px; padding: 35px 20px; border-radius: 25px; 
+    background: linear-gradient(135deg, #ec407a, #ad1457); 
     color: white; border: none; cursor: pointer; transition: 0.3s;
     box-shadow: 0 10px 25px rgba(173, 20, 87, 0.3);
   }
-  .card-btn:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(173, 20, 87, 0.5); }
-  .card-btn i { font-size: 2rem; display: block; margin-bottom: 15px; }
-  .card-btn h3 { font-size: 1.1rem; margin-bottom: 5px; }
-  .card-btn p { font-size: 0.75rem; opacity: 0.8; }
 
-  /* Admin Tiny Button */
-  .admin-trigger {
-    position: fixed; bottom: 15px; left: 15px; width: 30px; height: 30px;
-    background: white; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 0.7rem; border: 1px solid #f8bbd0;
-    cursor: pointer; opacity: 0.4; transition: 0.3s; z-index: 2000;
-  }
-  .admin-trigger:hover { opacity: 1; }
-
-  /* Modals */
+  /* MODAL STYLE (HUB-HU IMAGE THEME) */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px); display: none; align-items: center;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px); display: none; align-items: center;
     justify-content: center; z-index: 5000;
   }
-  .modal {
-    background: white; width: 90%; max-width: 700px; border-radius: 30px;
-    padding: 30px; position: relative; max-height: 80vh; overflow-y: auto;
+  .modal-overlay.open { display: flex; }
+
+  .letter-container {
+    background: white; width: 95%; max-width: 800px; border-radius: 20px;
+    overflow: hidden; max-height: 90vh; overflow-y: auto; position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
   }
-  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-  .slot { aspect-ratio: 1; background: #fff0f3; border-radius: 15px; border: 2px dashed #f48fb1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-  .slot img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Image 1 Header Style */
+  .letter-header-pink {
+    background: linear-gradient(to bottom, #d81b60, #ad1457);
+    padding: 30px 20px; text-align: center; color: white; position: relative;
+  }
+  .letter-header-pink h2 { font-family: 'Great Vibes', cursive; font-size: 3rem; }
+  .letter-header-pink p { font-size: 0.8rem; letter-spacing: 1px; opacity: 0.9; margin-top: 5px; }
+
+  .letter-dark-section {
+    background-color: var(--dark-panel); padding: 40px 20px; text-align: center; color: white;
+  }
+  .rose-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+  .tap-photo-hint { font-size: 0.6rem; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+  .dearest-title { font-family: 'Great Vibes', cursive; font-size: 2.5rem; }
+  .header-caps { font-size: 0.6rem; letter-spacing: 3px; color: #bbb; margin-top: 10px; }
+
+  /* Letter Body */
+  .letter-content { padding: 50px 40px; background: #fff9fb; line-height: 2; color: #333; font-family: 'Playfair Display', serif; }
+  .letter-content p { margin-bottom: 25px; font-size: 1.1rem; }
+
+  /* Image 2 Gallery Style */
+  .gallery-section { padding: 40px 20px; border-top: 1px dashed #f8bbd0; background: #fff; }
+  .gallery-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #ad1457; text-align: center; margin-bottom: 10px; }
+  .gallery-hint { text-align: center; font-size: 0.7rem; color: #888; margin-bottom: 30px; }
+  
+  .memory-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px; padding: 0 10px;
+  }
+  .memory-slot {
+    aspect-ratio: 1; background-color: var(--dark-panel); border-radius: 18px;
+    display: flex; align-items: center; justify-content: center; position: relative;
+    cursor: default; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  body.admin-mode .memory-slot { cursor: pointer; }
+  .memory-slot img { width: 100%; height: 100%; object-fit: cover; }
+  .slot-icon { color: #4a1a25; font-size: 1.5rem; }
+  .slot-number { position: absolute; bottom: 8px; right: 12px; color: #4a1a25; font-size: 0.6rem; font-weight: bold; }
+
+  .close-btn {
+    position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2);
+    border: none; color: white; width: 35px; height: 35px; border-radius: 50%;
+    cursor: pointer; font-size: 1.2rem; z-index: 10;
+  }
+
+  /* Admin Unlock (Bottom Left) */
+  .admin-lock { position: fixed; bottom: 15px; left: 15px; opacity: 0.3; cursor: pointer; font-size: 1rem; z-index: 9999; }
 </style>
 </head>
 <body>
 
-<div id="confetti-container"></div>
-
 <!-- UNLOCK SCREEN -->
-<div id="unlock-screen">
-  <div class="input-box">
-    <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem; color: var(--main-pink);">Hello Jhinuk 🌸</h2>
-    <input type="password" id="user-pin" class="pin-input" placeholder="••••••••" maxlength="8">
-    <button onclick="unlockSite()" class="card-btn" style="width: 100%; padding: 15px; border-radius: 10px;">Open Our World</button>
-    <p id="err" style="color: red; font-size: 0.8rem; margin-top: 10px;"></p>
-  </div>
+<div id="unlock-screen" style="position:fixed; inset:0; background:#fce4ec; z-index:9000; display:flex; align-items:center; justify-content:center;">
+    <div style="background:white; padding:40px; border-radius:30px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+        <h2 style="font-family:'Great Vibes'; font-size:2.5rem; color:#e91e63;">Hello Jhinuk 🌸</h2>
+        <input type="password" id="user-pin" placeholder="••••••••" maxlength="8" style="width:100%; padding:12px; margin:20px 0; border:1px solid #f8bbd0; border-radius:10px; text-align:center; letter-spacing:5px; font-size:1.2rem;">
+        <button onclick="unlock()" class="card-btn" style="width:100%; padding:15px;">Open</button>
+    </div>
 </div>
 
-<!-- MAIN PAGE -->
-<div id="main-content">
-  <p class="header-text">✦ HAPPY ANNIVERSARY ✦</p>
+<div class="hero">
+  <p style="letter-spacing:5px; font-size:0.9rem; color:#666;">✦ HAPPY ANNIVERSARY ✦</p>
   <h1 class="name-text">Jhinuk</h1>
-  <p class="sub-text">WITH ALL MY LOVE 🌹</p>
+  <p style="letter-spacing:3px; font-size:0.7rem; color:#ad1457; margin-bottom:40px;">WITH ALL MY LOVE 🌹</p>
+  <button class="card-btn" onclick="openModal()">
+    <span>💌</span>
+    <h3>Letters & Memories</h3>
+    <p>Tap to see our story</p>
+  </button>
+</div>
 
-  <p class="quote">
-    "You are the poem I never knew how to write, the song that lives in the silence of my heart. 
-    Today the world celebrates its greatest gift — you, my Jhinuk."
-  </p>
+<!-- HUB-HU IMAGE THEME MODAL -->
+<div class="modal-overlay" id="letterModal">
+  <div class="letter-container">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    
+    <!-- Top Header (From Image 1) -->
+    <div class="letter-header-pink">
+      <h2>My Dearest Letter</h2>
+      <p>Written with every beat of my heart 💗</p>
+    </div>
 
-  <div class="button-container">
-    <button class="card-btn" onclick="openModal('modal-letter')">
-      <span>💌</span>
-      <h3>Letters & Memories</h3>
-      <p>20+ photos with love note</p>
-    </button>
-    <button class="card-btn" onclick="openModal('modal-gallery')">
-      <span>📖</span>
-      <h3>Our Love Journey</h3>
-      <p>Photo story of us</p>
-    </button>
+    <!-- Dark Profile Section (From Image 1) -->
+    <div class="letter-dark-section">
+      <span class="rose-icon">🌹</span>
+      <p class="tap-photo-hint">TAP TO ADD YOUR PHOTO</p>
+      <h3 class="dearest-title">My Dearest Jhinuk 🌹</h3>
+      <p class="header-caps">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</p>
+    </div>
+
+    <!-- Letter Text -->
+    <div class="letter-content">
+      <p>My Dearest Jhinuk,</p>
+      <p>
+        On this beautiful day that the universe gifted us, I want you to know that every single day with you is a blessing I never deserved but am endlessly grateful for.
+      </p>
+      <p>
+        You are not just the love of my life; you are the reason I believe in magic, in miracles, and in the quiet beauty of ordinary moments made extraordinary simply because you are in them.
+      </p>
+      <p>
+        Your laughter is my favourite melody. Your smile — the one that reaches your eyes — is the light I navigate by. The way you love, so fully and so fearlessly, makes me want to be better every single day.
+      </p>
+      <p>Happy Anniversary, my Jhinuk. You are my home, my heartbeat, my forever.</p>
+      <p style="text-align:right;">Yours, always 🌹</p>
+    </div>
+
+    <!-- Memory Gallery (From Image 2) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Our Memory Gallery</h2>
+      <p class="gallery-hint">Tap any dark frame to add your photo ✦</p>
+      
+      <div class="memory-grid" id="memoryGrid">
+        <!-- Slots will be generated here -->
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ADMIN TRIGGER (TINY) -->
-<div class="admin-trigger" onclick="promptAdmin()">🔒</div>
-
-<!-- MODALS -->
-<div class="modal-overlay" id="modal-letter" onclick="closeOverlay(event, 'modal-letter')">
-    <div class="modal">
-        <h2 style="font-family: 'Great Vibes'; color: var(--main-pink); font-size: 2.5rem; text-align: center;">My Dear Jhinuk,</h2>
-        <p style="margin-top: 20px; line-height: 1.8; color: #444; font-style: italic;">
-            Thank you for being you. This year has been incredible because of your presence. Happy Anniversary!
-        </p>
-        <button class="card-btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="closeModal('modal-letter')">Close</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="modal-gallery" onclick="closeOverlay(event, 'modal-gallery')">
-    <div class="modal">
-        <h2 style="text-align: center; color: var(--main-pink);">Memory Lane</h2>
-        <p class="admin-only" style="text-align: center; font-size: 0.8rem; color: green; font-weight: bold;">(Admin Mode Active: Click to upload)</p>
-        <div class="photo-grid" id="photoGrid"></div>
-        <button class="card-btn" style="width: 100%; margin-top: 20px; padding: 15px;" onclick="closeModal('modal-gallery')">Close</button>
-    </div>
-</div>
-
-<input type="file" id="fileIn" style="display: none;" accept="image/*">
+<div class="admin-lock" onclick="adminLogin()">🔒</div>
+<input type="file" id="fileIn" style="display:none;" accept="image/*">
 
 <script>
   const USER_PIN = "02052025";
   const ADMIN_PASS = "admin123";
 
-  // Confetti Animation
-  function createConfetti() {
-    const container = document.getElementById('confetti-container');
-    const colors = ['#f48fb1', '#f06292', '#fce4ec', '#f8bbd0'];
-    for(let i=0; i<50; i++) {
-        const c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.background = colors[Math.floor(Math.random()*colors.length)];
-        c.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        c.style.animationDelay = Math.random() * 5 + 's';
-        container.appendChild(c);
-    }
-  }
-  createConfetti();
-
-  function unlockSite() {
+  function unlock() {
     if(document.getElementById('user-pin').value === USER_PIN) {
-        document.getElementById('unlock-screen').style.transform = 'translateY(-100%)';
-        const main = document.getElementById('main-content');
-        main.style.display = 'block';
-        setTimeout(() => main.style.opacity = '1', 100);
-    } else {
-        document.getElementById('err').innerText = "Wrong PIN, Love!";
-    }
+        document.getElementById('unlock-screen').style.display = 'none';
+    } else { alert("Wrong PIN!"); }
   }
 
-  function promptAdmin() {
-    const p = prompt("Admin Security Password:");
-    if(p === ADMIN_PASS) {
+  function adminLogin() {
+    if(prompt("Admin Password:") === ADMIN_PASS) {
         document.body.classList.add('admin-mode');
-        alert("Admin Mode ON - Click gallery slots to upload.");
+        alert("Admin Mode ON: Click gallery slots to upload.");
     }
   }
 
-  function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-  function closeOverlay(e, id) { if(e.target.id === id) closeModal(id); }
+  function openModal() { document.getElementById('letterModal').classList.add('open'); }
+  function closeModal() { document.getElementById('letterModal').classList.remove('open'); }
 
-  // Gallery
-  const grid = document.getElementById('photoGrid');
+  // Generate Memory Slots (Image 2 style)
+  const grid = document.getElementById('memoryGrid');
   let activeSlot = null;
-  for(let i=0; i<12; i++) {
-    const s = document.createElement('div');
-    s.className = 'slot';
-    s.innerHTML = '<span>🌸</span>';
-    s.onclick = function() {
+
+  for(let i=1; i<=12; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'memory-slot';
+    slot.innerHTML = `<span class="slot-icon">🌸</span><span class="slot-number">${i}</span>`;
+    slot.onclick = function() {
         if(document.body.classList.contains('admin-mode')) {
             activeSlot = this;
             document.getElementById('fileIn').click();
         }
     };
-    grid.appendChild(s);
+    grid.appendChild(slot);
   }
 
   document.getElementById('fileIn').onchange = function(e) {
     const reader = new FileReader();
-    reader.onload = (ev) => activeSlot.innerHTML = `<img src="${ev.target.result}">`;
+    reader.onload = (ev) => {
+        activeSlot.innerHTML = `<img src="${ev.target.result}"><span class="slot-number">${activeSlot.querySelector('.slot-number').innerText}</span>`;
+    };
     reader.readAsDataURL(e.target.files[0]);
   };
 </script>
