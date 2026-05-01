@@ -148,7 +148,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 .dark-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:1;}
 .dark-content{position:relative;z-index:2;}
 .rose-icon{
-  font-size:2.8rem;cursor:pointer;display:inline-block;
+  font-size:2.8rem;display:inline-block;
   animation:floatRose 3s ease-in-out infinite;transition:transform 0.2s;
 }
 .rose-icon:hover{transform:scale(1.15) rotate(-5deg);}
@@ -190,8 +190,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 .memory-slot.revealed{opacity:1;transform:scale(1);}
 .memory-slot:hover{box-shadow:0 8px 25px rgba(233,30,99,0.2);transform:scale(1.03);}
 .memory-slot img{width:100%;height:100%;object-fit:cover;}
-.slot-number{position:absolute;bottom:8px;right:12px;color:#4a1a25;font-size:0.6rem;z-index:2;}
+.memory-slot video{width:100%;height:100%;object-fit:cover;}
+.slot-number{position:absolute;bottom:8px;right:12px;color:#fff;background:rgba(0,0,0,0.6);padding:2px 8px;border-radius:8px;font-size:0.65rem;z-index:2;}
 .slot-icon{color:#4a1a25;font-size:1.6rem;animation:pulseSoft 2.5s infinite;}
+.video-badge{
+  position:absolute;top:8px;left:8px;
+  background:rgba(0,0,0,0.75);
+  color:#fff;padding:4px 10px;border-radius:12px;
+  font-size:0.65rem;z-index:3;letter-spacing:1px;
+  font-weight:600;
+}
 
 .close-btn{
   position:absolute;top:15px;right:15px;
@@ -200,49 +208,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
   font-size:1rem;transition:background 0.2s,transform 0.2s;backdrop-filter:blur(4px);
 }
 .close-btn:hover{background:rgba(255,255,255,0.35);transform:rotate(90deg);}
-
-.admin-only{display:none!important;}
-body.admin-mode .admin-only{display:block!important;}
-.admin-lock{
-  position:fixed;bottom:15px;left:15px;opacity:0.15;cursor:pointer;
-  z-index:9999;font-size:1.2rem;transition:opacity 0.3s;
-}
-.admin-lock:hover{opacity:0.5;}
-
-/* ADMIN SAVE BUTTON */
-.admin-save-panel{
-  position:fixed;bottom:20px;right:20px;
-  background:linear-gradient(135deg,#ec407a,#ad1457);
-  padding:15px 25px;border-radius:50px;
-  box-shadow:0 8px 30px rgba(233,30,99,0.4);
-  z-index:9999;
-  display:none;align-items:center;gap:12px;
-  animation:slideInUp 0.5s cubic-bezier(.22,1,.36,1);
-}
-body.admin-mode .admin-save-panel{display:flex;}
-.save-btn{
-  background:rgba(255,255,255,0.25);
-  border:2px solid rgba(255,255,255,0.5);
-  color:#fff;padding:10px 24px;border-radius:25px;
-  font-family:'Montserrat',sans-serif;font-size:0.85rem;
-  letter-spacing:1.5px;cursor:pointer;
-  transition:all 0.3s ease;
-  font-weight:600;
-  backdrop-filter:blur(10px);
-}
-.save-btn:hover{
-  background:rgba(255,255,255,0.35);
-  transform:translateY(-2px);
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-.save-btn:active{transform:translateY(0) scale(0.98);}
-.save-status{
-  color:#fff;font-size:0.75rem;letter-spacing:1px;
-  display:none;align-items:center;gap:6px;
-}
-.save-status.show{display:flex;}
-.save-status.success{color:#c8e6c9;}
-.save-status.error{color:#ffcdd2;}
 
 .floating-hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .fheart{position:absolute;bottom:-60px;font-size:1.2rem;animation:floatUp linear infinite;opacity:0;}
@@ -257,7 +222,6 @@ body.admin-mode .admin-save-panel{display:flex;}
   animation:sparkleAnim 1.5s ease forwards;z-index:9999;
 }
 
-/* FULLSCREEN IMAGE VIEWER */
 .fullscreen-viewer{
   position:fixed;inset:0;background:rgba(0,0,0,0.95);
   z-index:10000;display:none;align-items:center;justify-content:center;
@@ -278,6 +242,13 @@ body.admin-mode .admin-save-panel{display:flex;}
   border-radius:20px;box-shadow:0 25px 80px rgba(233,30,99,0.4);
   object-fit:contain;display:block;
 }
+.fullscreen-img.hide{display:none;}
+.fullscreen-video{
+  width:100%;height:auto;max-height:70vh;
+  border-radius:20px;box-shadow:0 25px 80px rgba(233,30,99,0.4);
+  object-fit:contain;display:none;background:#000;
+}
+.fullscreen-video.show{display:block;}
 .image-note-container{
   margin-top:30px;text-align:center;
   transform:translateY(30px);opacity:0;
@@ -296,13 +267,6 @@ body.admin-mode .admin-save-panel{display:flex;}
   color:#fff;font-size:1.05rem;line-height:1.8;
   font-style:italic;
   box-shadow:0 10px 40px rgba(0,0,0,0.3);
-}
-.image-note.editable{
-  cursor:text;transition:all 0.3s ease;
-}
-.image-note.editable:hover{
-  background:linear-gradient(135deg,rgba(236,64,122,0.25),rgba(173,20,87,0.25));
-  border-color:rgba(248,187,208,0.5);
 }
 .image-number{
   display:inline-block;
@@ -342,51 +306,21 @@ body.admin-mode .admin-save-panel{display:flex;}
 .fullscreen-nav.next{right:25px;}
 .fullscreen-nav:hover.prev{transform:translateY(-50%) translateX(-5px);}
 .fullscreen-nav:hover.next{transform:translateY(-50%) translateX(5px);}
-.admin-edit-hint{
-  font-size:0.7rem;color:rgba(248,187,208,0.6);
-  margin-top:10px;letter-spacing:1px;
-  font-family:'Montserrat',sans-serif;font-style:normal;
-}
-
-/* ADMIN EDITABLE INDICATOR */
-.editable-indicator{
-  position:absolute;
-  top:0;right:0;
-  background:rgba(236,64,122,0.9);
-  color:#fff;
-  padding:4px 12px;
-  border-radius:0 8px 0 0;
-  font-size:0.75rem;
-  font-weight:bold;
-  z-index:100;
-  display:none;
-}
-body.admin-mode .editable-indicator{display:block;}
-.editable-area{
-  outline:2px dashed transparent;
-  transition:outline 0.3s;
-}
-body.admin-mode .editable-area:hover{
-  outline:2px dashed rgba(236,64,122,0.7);
-  cursor:text;
-}
 
 @media(max-width:768px){
   .fullscreen-img{max-height:60vh;border-radius:12px;}
+  .fullscreen-video{max-height:60vh;border-radius:12px;}
   .image-note{font-size:0.9rem;padding:18px 22px;}
   .fullscreen-close{width:45px;height:45px;top:15px;right:15px;}
   .fullscreen-nav{width:48px;height:48px;font-size:1.3rem;}
   .fullscreen-nav.prev{left:10px;}
   .fullscreen-nav.next{right:10px;}
-  .admin-save-panel{bottom:15px;right:15px;padding:12px 20px;}
-  .save-btn{padding:8px 18px;font-size:0.75rem;}
 }
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes namePop{
   0%{opacity:0;transform:scale(0.6) translateY(20px)}
   60%{transform:scale(1.05) translateY(-5px)}
@@ -434,7 +368,6 @@ body.admin-mode .editable-area:hover{
 <div class="floating-hearts" id="floatingHearts"></div>
 <canvas id="petals-canvas"></canvas>
 
-<!-- UNLOCK SCREEN -->
 <div id="unlock-screen">
   <div id="unlock-box">
     <h2>Hello Jhinuk 🌸</h2>
@@ -444,17 +377,16 @@ body.admin-mode .editable-area:hover{
   </div>
 </div>
 
-<!-- HERO -->
 <div class="hero" id="hero">
-  <p class="hero-tag hero-tag-editable" data-field="heroTag">✦ HAPPY ANNIVERSARY ✦</p>
-  <h1 class="name-text name-text-editable" data-field="nameText">Jhinuk</h1>
-  <p class="love-tag love-tag-editable" data-field="loveTag">WITH ALL MY LOVE 🌹</p>
+  <p class="hero-tag">✦ HAPPY ANNIVERSARY ✦</p>
+  <h1 class="name-text">Jhinuk</h1>
+  <p class="love-tag">WITH ALL MY LOVE 🌹</p>
   <div class="heart-divider">
     <span></span>
     <span class="heart-pulse">♥</span>
     <span></span>
   </div>
-  <p class="quote-text quote-text-editable" data-field="quoteText">
+  <p class="quote-text">
     "You are the poem I never knew how to write,<br>
     the song that lives in the silence of my heart."
   </p>
@@ -462,59 +394,56 @@ body.admin-mode .editable-area:hover{
     <button class="card-btn" onclick="openModal('letterModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">💌</span>
-      <h3><span class="btn-text" data-field="btnLetterTitle">Letters & Memories</span></h3>
-      <p><span class="btn-text-small" data-field="btnLetterDesc">20+ photos · love note</span></p>
+      <h3>Letters & Memories</h3>
+      <p>18 photos · 1 video · love note</p>
     </button>
     <button class="card-btn" onclick="openModal('journeyModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">📖</span>
-      <h3><span class="btn-text" data-field="btnJourneyTitle">Our Love Journey</span></h3>
-      <p><span class="btn-text-small" data-field="btnJourneyDesc">Photo story of us</span></p>
+      <h3>Our Love Journey</h3>
+      <p>14 beautiful moments</p>
     </button>
   </div>
 </div>
 
-<!-- LETTER MODAL -->
 <div class="modal-overlay" id="letterModal">
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('letterModal')">✕</button>
     <div class="letter-header-pink">
-      <h2><span class="modal-header-text" data-field="letterHeader">My Dearest Letter</span></h2>
-      <p><span class="modal-subtext" data-field="letterSubheader">Written with every beat of my heart 💗</span></p>
+      <h2>My Dearest Letter</h2>
+      <p>Written with every beat of my heart 💗</p>
     </div>
     <div class="letter-dark-section" id="letterDarkBg">
-      <div class="dark-overlay admin-only"></div>
+      <div class="dark-overlay"></div>
       <div class="dark-content">
-        <span class="rose-icon admin-only" onclick="triggerMainPhoto()">🌹</span>
-        <p class="admin-only" style="font-size:0.6rem;color:#f8bbd0;margin-top:4px;">(Admin: click rose to change background)</p>
-        <h3 class="dearest-title"><span class="dark-text" data-field="dearestTitle">My Dearest Jhinuk 🌹</span></h3>
-        <p class="dark-tag"><span class="dark-tag-text" data-field="darkTag">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</span></p>
+        <span class="rose-icon">🌹</span>
+        <h3 class="dearest-title">My Dearest Jhinuk 🌹</h3>
+        <p class="dark-tag">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</p>
       </div>
     </div>
     <div class="letter-content">
-      <p class="letter-para letter-para-editable" data-field="letterPara1"><span>My Dearest Jhinuk,</span></p>
-      <p class="letter-para letter-para-editable" data-field="letterPara2"><span>Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</span></p>
-      <p class="letter-para letter-para-editable" data-field="letterPara3"><span>Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</span></p>
-      <p class="letter-para letter-para-editable" data-field="letterPara4"><span>Thank you for being you. Thank you for choosing us, again and again, every single day.</span></p>
-      <p class="letter-para letter-para-editable" style="text-align:right;margin-top:30px;font-style:italic;" data-field="letterEnding"><span>Yours, always 🌹</span></p>
+      <p class="letter-para">My Dearest Jhinuk,</p>
+      <p class="letter-para">Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</p>
+      <p class="letter-para">Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</p>
+      <p class="letter-para">Thank you for being you. Thank you for choosing us, again and again, every single day.</p>
+      <p class="letter-para" style="text-align:right;margin-top:30px;font-style:italic;">Yours, always 🌹</p>
     </div>
     <div class="gallery-section">
-      <h3><span class="gallery-heading" data-field="galleryHeading">Memory Gallery</span></h3>
+      <h3>Memory Gallery</h3>
       <div class="memory-grid" id="letterGrid"></div>
     </div>
   </div>
 </div>
 
-<!-- JOURNEY MODAL -->
 <div class="modal-overlay" id="journeyModal">
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('journeyModal')">✕</button>
     <div class="letter-header-pink" style="background:linear-gradient(135deg,#880e4f,#ad1457);">
-      <h2><span class="journey-header-text" data-field="journeyHeader">Our Love Journey</span></h2>
-      <p><span class="journey-subtext" data-field="journeySubheader">Every moment captured forever 🎞️</span></p>
+      <h2>Our Love Journey</h2>
+      <p>Every moment captured forever 🎞️</p>
     </div>
     <div class="journey-intro">
-      <p><span class="journey-intro-text" data-field="journeyIntro">From the very first glance to forever — every frame is a piece of us.</span></p>
+      <p>From the very first glance to forever — every frame is a piece of us.</p>
     </div>
     <div class="gallery-section">
       <div class="memory-grid" id="journeyGrid"></div>
@@ -522,46 +451,204 @@ body.admin-mode .editable-area:hover{
   </div>
 </div>
 
-<!-- FULLSCREEN VIEWER -->
 <div class="fullscreen-viewer" id="fullscreenViewer">
   <button class="fullscreen-close" onclick="closeFullscreen()">✕</button>
   <button class="fullscreen-nav prev" onclick="navigateImage(-1)">‹</button>
   <button class="fullscreen-nav next" onclick="navigateImage(1)">›</button>
   <div class="fullscreen-img-container">
     <img class="fullscreen-img" id="fullscreenImg" src="" alt="Memory">
+    <video class="fullscreen-video" id="fullscreenVideo" controls playsinline></video>
   </div>
   <div class="image-note-container">
     <div class="image-number" id="imageNumber">MEMORY #1</div>
-    <div class="image-note" id="imageNote" contenteditable="false">
+    <div class="image-note" id="imageNote">
       This is a beautiful memory we shared together... 💕
     </div>
-    <p class="admin-edit-hint admin-only">(Click note to edit)</p>
   </div>
 </div>
-
-<!-- ADMIN SAVE PANEL -->
-<div class="admin-save-panel">
-  <button class="save-btn" onclick="saveAllData()">💾 SAVE ALL CHANGES</button>
-  <div class="save-status" id="saveStatus">
-    <span id="saveIcon">✓</span>
-    <span id="saveText">Saved!</span>
-  </div>
-</div>
-
-<div class="admin-lock" onclick="adminLogin()">🔒</div>
-<input type="file" id="fileIn" style="display:none;" accept="image/*">
-<input type="file" id="mainPhotoIn" style="display:none;" accept="image/*">
 
 <script>
 const USER_PIN = "02052025";
-const ADMIN_PASS = "admin123";
-let activeSlot = null;
 let currentImageIndex = 0;
 let currentGridId = '';
-let imageNotes = {};
-let uploadedImages = {};
-let mainPhoto = null;
-let editableElements = {}; // Store references to editable elements
+
+// ===== MEDIA CONFIGURATION =====
+const BACKGROUND_IMAGE = "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/background.jpg";
+
+const IMAGES = {
+  // Letter Gallery (18 images + 1 video)
+  letterGrid: {
+    1: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter1.png",
+      note: "Every word written to you comes straight from my heart 💕"
+    },
+    2: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter2.png",
+      note: "Your smile is the light that guides me home 🌟"
+    },
+    3: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter3.jpg",
+      note: "With you, every moment feels like magic ✨"
+    },
+    4: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter4.jpg",
+      note: "You make my world infinitely more beautiful 🌸"
+    },
+    5: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter5.jpg",
+      note: "Forever grateful for the love we share 💗"
+    },
+    6: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter6.jpg",
+      note: "My heart belongs to you, always and forever 💞"
+    },
+    7: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter7.jpg",
+      note: "Every day with you is a precious gift 🎁"
+    },
+    8: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter8.jpg",
+      note: "You are my happy place, my safe haven 🏡"
+    },
+    9: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter9.jpg",
+      note: "Together we create memories that last forever 📸"
+    },
+    10: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter10.jpg",
+      note: "Your love fills my life with endless joy 🌈"
+    },
+    11: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter11.jpg",
+      note: "In your eyes, I found my home 👁️💕"
+    },
+    12: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter12.jpg",
+      note: "Every heartbeat whispers your name 💓"
+    },
+    13: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter13.jpg",
+      note: "You are my today and all of my tomorrows 🌅"
+    },
+    14: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter14.jpg",
+      note: "Loving you is the best decision I ever made 💝"
+    },
+    15: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter15.jpg",
+      note: "With you, I am complete 🧩"
+    },
+    16: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter16.jpg",
+      note: "You make ordinary moments extraordinary ⭐"
+    },
+    17: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter17.jpg",
+      note: "My love for you grows stronger every single day 🌹"
+    },
+    18: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/letter18.jpg",
+      note: "You are my forever and always, my darling 💍"
+    },
+    19: {
+      type: "video",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/memory.mp4",
+      note: "A moving memory that I'll treasure forever 🎥💗"
+    }
+  },
+
+  // Journey Gallery (14 images)
+  journeyGrid: {
+    1: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey1.png",
+      note: "The beginning of our beautiful story together 📖"
+    },
+    2: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey2.png",
+      note: "Every step of this journey with you is perfect 👣"
+    },
+    3: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey3.png",
+      note: "Building our dreams together, one day at a time 🌠"
+    },
+    4: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey4.png",
+      note: "You and me, creating our own little universe 🌌"
+    },
+    5: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey5.jpg",
+      note: "Growing together, loving deeper each moment 🌱"
+    },
+    6: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey6.jpg",
+      note: "Side by side, hand in hand, always 🤝"
+    },
+    7: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey7.jpg",
+      note: "Adventures are better when shared with you 🗺️"
+    },
+    8: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey8.jpg",
+      note: "You make every chapter of life beautiful 📚"
+    },
+    9: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey9.jpg",
+      note: "Together, we can conquer anything 🏔️"
+    },
+    10: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey10.jpg",
+      note: "Our love story continues to unfold beautifully 🌺"
+    },
+    11: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey11.jpg",
+      note: "The best is yet to come, my love 🌄"
+    },
+    12: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey12.jpg",
+      note: "Writing our forever story together 💌"
+    },
+    13: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey13.jpg",
+      note: "Every moment with you is a treasure I keep 💎"
+    },
+    14: {
+      type: "image",
+      url: "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/journey14.jpg",
+      note: "To infinity and beyond, my beloved ♾️💕"
+    }
+  }
+};
 
 /* PETAL CANVAS */
 const canvas = document.getElementById('petals-canvas');
@@ -625,7 +712,7 @@ function unlock(){
     setTimeout(()=>{
       screen.style.display='none';
       document.getElementById('hero').classList.add('visible');
-      loadAllData();
+      loadImages();
     },900);
   } else {
     input.classList.add('shake');input.value='';
@@ -633,189 +720,42 @@ function unlock(){
   }
 }
 
-/* ADMIN LOGIN */
-function adminLogin(){
-  if(prompt("Admin Password:")===ADMIN_PASS){
-    document.body.classList.add('admin-mode');
-    setupEditableAreas();
-    document.getElementById('imageNote').contentEditable = 'true';
-    alert("Admin Mode ON ✓\n\nNow you can edit:\n✨ All Text & Quotes\n✨ Letter Content\n✨ Image Notes\n✨ Background Photos\n\nDon't forget to save! 💾");
+/* LOAD IMAGES */
+function loadImages(){
+  if(BACKGROUND_IMAGE){
+    document.getElementById('letterDarkBg').style.backgroundImage = `url('${BACKGROUND_IMAGE}')`;
   }
-}
 
-/* SETUP EDITABLE AREAS IN ADMIN MODE */
-function setupEditableAreas(){
-  // Hero Elements
-  const heroEditable = document.querySelectorAll('.hero-tag-editable, .name-text-editable, .love-tag-editable, .quote-text-editable');
-  heroEditable.forEach(el => {
-    el.classList.add('editable-area');
-    el.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
-      if(newText !== null && newText.trim() !== ""){
-        this.innerHTML = newText;
-        editableElements[field] = newText;
-        console.log(`${field} saved to memory`);
-      }
-    });
-  });
+  Object.keys(IMAGES).forEach(gridId => {
+    const grid = document.getElementById(gridId);
+    const mediaData = IMAGES[gridId];
 
-  // Button Elements
-  const btnTexts = document.querySelectorAll('.btn-text, .btn-text-small');
-  btnTexts.forEach(btn => {
-    btn.classList.add('editable-area');
-    btn.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newText = prompt(`Edit button ${field}:`, this.innerText.trim());
-      if(newText !== null && newText.trim() !== ""){
-        this.innerText = newText;
-        editableElements[field] = newText;
-      }
-    });
-  });
+    Object.keys(mediaData).forEach(index => {
+      const data = mediaData[index];
 
-  // Modal Headers
-  const modalHeaders = document.querySelectorAll('.modal-header-text, .modal-subtext');
-  modalHeaders.forEach(hdr => {
-    hdr.classList.add('editable-area');
-    hdr.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
-      if(newText !== null && newText.trim() !== ""){
-        this.innerHTML = newText;
-        editableElements[field] = newText;
-      }
-    });
-  });
+      if(data.url){
+        const slot = grid.querySelector(`[data-index="${index}"]`);
 
-  // Dark Section
-  const darkSections = document.querySelectorAll('.dark-text, .dark-tag-text');
-  darkSections.forEach(ds => {
-    ds.classList.add('editable-area');
-    ds.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
-      if(newText !== null && newText.trim() !== ""){
-        this.innerText = newText;
-        editableElements[field] = newText;
-      }
-    });
-  });
-
-  // Letter Content
-  const letterParas = document.querySelectorAll('.letter-para-editable');
-  letterParas.forEach(lp => {
-    lp.classList.add('editable-area');
-    lp.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newContent = prompt(`Edit ${field}:`, this.innerHTML);
-      if(newContent !== null && newContent.trim() !== ""){
-        this.innerHTML = newContent;
-        editableElements[field] = newContent;
-      }
-    });
-  });
-
-  // Gallery Sections
-  const galleryHeadings = document.querySelectorAll('.gallery-heading, .journey-header-text, .journey-subtext, .journey-intro-text');
-  galleryHeadings.forEach(gh => {
-    gh.classList.add('editable-area');
-    gh.addEventListener('click', function() {
-      const field = this.getAttribute('data-field');
-      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
-      if(newText !== null && newText.trim() !== ""){
-        this.innerText = newText;
-        editableElements[field] = newText;
-      }
-    });
-  });
-
-  // Add visual indicator for all editable areas
-  setTimeout(() => {
-    const editable = document.querySelectorAll('.editable-area');
-    editable.forEach(el => {
-      const indicator = document.createElement('div');
-      indicator.className = 'editable-indicator';
-      indicator.textContent = 'EDIT';
-      el.appendChild(indicator);
-    });
-  }, 500);
-}
-
-/* LOCAL STORAGE */
-function saveAllData(){
-  const data = {
-    imageNotes: imageNotes,
-    uploadedImages: uploadedImages,
-    mainPhoto: mainPhoto,
-    editableElements: editableElements
-  };
-  
-  try {
-    localStorage.setItem('anniversaryData', JSON.stringify(data));
-    showSaveStatus(true, 'All data saved! 💾');
-  } catch(e) {
-    showSaveStatus(false, 'Error saving data ⚠️');
-    console.error('Save error:', e);
-  }
-}
-
-function loadAllData(){
-  try {
-    const savedData = localStorage.getItem('anniversaryData');
-    if(savedData){
-      const data = JSON.parse(savedData);
-      imageNotes = data.imageNotes || {};
-      uploadedImages = data.uploadedImages || {};
-      mainPhoto = data.mainPhoto || null;
-      editableElements = data.editableElements || {};
-      
-      // Restore main photo
-      if(mainPhoto){
-        document.getElementById('letterDarkBg').style.backgroundImage = `url('${mainPhoto}')`;
-      }
-      
-      // Restore uploaded images
-      Object.keys(uploadedImages).forEach(key => {
-        const [gridId, index] = key.split('_');
-        const grid = document.getElementById(gridId);
-        if(grid){
-          const slot = grid.querySelector(`[data-index="${index}"]`);
-          if(slot){
-            slot.innerHTML = `<img src="${uploadedImages[key]}"><span class="slot-number">${index}</span>`;
-            slot.style.opacity = '1';
-            slot.style.transform = 'scale(1)';
+        if(slot){
+          if(data.type === "video"){
+            slot.innerHTML = `
+              <video src="${data.url}" muted preload="metadata"></video>
+              <span class="video-badge">▶ VIDEO</span>
+              <span class="slot-number">${index}</span>
+            `;
+          } else {
+            slot.innerHTML = `
+              <img src="${data.url}">
+              <span class="slot-number">${index}</span>
+            `;
           }
-        }
-      });
-      
-      // Restore editable elements
-      Object.keys(editableElements).forEach(field => {
-        const element = document.querySelector(`[data-field="${field}"]`);
-        if(element){
-          element.innerHTML = editableElements[field];
-        }
-      });
-      
-      console.log('Data loaded successfully!');
-    }
-  } catch(e) {
-    console.error('Load error:', e);
-  }
-}
 
-function showSaveStatus(success, message){
-  const status = document.getElementById('saveStatus');
-  const icon = document.getElementById('saveIcon');
-  const text = document.getElementById('saveText');
-  
-  status.className = 'save-status show ' + (success ? 'success' : 'error');
-  icon.textContent = success ? '✓' : '✕';
-  text.textContent = message;
-  
-  setTimeout(() => {
-    status.classList.remove('show');
-  }, 3000);
+          slot.style.opacity = '1';
+          slot.style.transform = 'scale(1)';
+        }
+      }
+    });
+  });
 }
 
 /* MODAL */
@@ -826,6 +766,7 @@ function openModal(id){
   if(id==='letterModal')revealLetterParas();
   revealSlots(id==='letterModal'?'letterGrid':'journeyGrid');
 }
+
 function closeModal(id){
   const overlay=document.getElementById(id);
   const container=overlay.querySelector('.modal-container');
@@ -838,7 +779,6 @@ function closeModal(id){
   },350);
 }
 
-/* LETTER REVEAL */
 function revealLetterParas(){
   document.querySelectorAll('.letter-para').forEach((p,i)=>setTimeout(()=>p.classList.add('reveal'),400+i*200));
 }
@@ -852,61 +792,72 @@ function createGrid(gridId,count){
     slot.setAttribute('data-grid', gridId);
     slot.innerHTML=`<span class="slot-icon">🌸</span><span class="slot-number">${i}</span>`;
     slot.onclick=function(){
-      if(document.body.classList.contains('admin-mode') && !this.querySelector('img')){
-        activeSlot=this;
-        document.getElementById('fileIn').click();
-      } else if(this.querySelector('img')){
+      const index = parseInt(this.getAttribute('data-index'));
+      const gridId = this.getAttribute('data-grid');
+      const data = IMAGES[gridId][index];
+
+      if(data && data.url){
         openFullscreen(this);
       }
     };
     grid.appendChild(slot);
-    
-    const noteKey = `${gridId}_${i}`;
-    if(!imageNotes[noteKey]){
-      imageNotes[noteKey] = `This beautiful moment captured forever in our hearts... 💕`;
-    }
   }
 }
-createGrid('letterGrid',12);
-createGrid('journeyGrid',12);
+createGrid('letterGrid',19);
+createGrid('journeyGrid',14);
 
 function revealSlots(gridId){
   document.querySelectorAll('#'+gridId+' .memory-slot').forEach((s,i)=>setTimeout(()=>s.classList.add('revealed'),150+i*60));
 }
 
-/* FULLSCREEN IMAGE VIEWER */
+/* FULLSCREEN VIEWER */
 function openFullscreen(slotElement){
-  const img = slotElement.querySelector('img');
-  if(!img) return;
-  
   const index = parseInt(slotElement.getAttribute('data-index'));
   const gridId = slotElement.getAttribute('data-grid');
-  
+
+  const data = IMAGES[gridId][index];
+  if(!data || !data.url) return;
+
   currentImageIndex = index;
   currentGridId = gridId;
-  
+
   const viewer = document.getElementById('fullscreenViewer');
   const fullscreenImg = document.getElementById('fullscreenImg');
+  const fullscreenVideo = document.getElementById('fullscreenVideo');
   const imageNumber = document.getElementById('imageNumber');
   const imageNote = document.getElementById('imageNote');
-  
-  fullscreenImg.src = img.src;
-  imageNumber.textContent = `MEMORY #${index}`;
-  
-  const noteKey = `${gridId}_${index}`;
-  imageNote.textContent = imageNotes[noteKey] || `This beautiful moment captured forever in our hearts... 💕`;
-  
+
+  imageNumber.textContent = data.type === "video" ? `VIDEO #${index}` : `MEMORY #${index}`;
+  imageNote.textContent = data.note || 'A beautiful memory... 💕';
+
+  fullscreenVideo.pause();
+  fullscreenVideo.removeAttribute('src');
+  fullscreenVideo.load();
+
+  if(data.type === "video"){
+    fullscreenImg.classList.add('hide');
+    fullscreenVideo.classList.add('show');
+    fullscreenVideo.src = data.url;
+    fullscreenVideo.load();
+  } else {
+    fullscreenVideo.classList.remove('show');
+    fullscreenImg.classList.remove('hide');
+    fullscreenImg.src = data.url;
+  }
+
   viewer.style.display = 'flex';
-  requestAnimationFrame(()=>{
-    viewer.classList.add('active');
-  });
-  
+  requestAnimationFrame(() => viewer.classList.add('active'));
   document.body.style.overflow = 'hidden';
 }
 
 function closeFullscreen(){
   const viewer = document.getElementById('fullscreenViewer');
+  const fullscreenVideo = document.getElementById('fullscreenVideo');
+
+  fullscreenVideo.pause();
+
   viewer.classList.remove('active');
+
   setTimeout(()=>{
     viewer.style.display = 'none';
     document.body.style.overflow = '';
@@ -916,36 +867,33 @@ function closeFullscreen(){
 function navigateImage(direction){
   const grid = document.getElementById(currentGridId);
   const slots = Array.from(grid.querySelectorAll('.memory-slot'));
-  const imagesSlots = slots.filter(slot => slot.querySelector('img'));
-  
-  if(imagesSlots.length === 0) return;
-  
+  const mediaSlots = slots.filter(slot => {
+    const index = parseInt(slot.getAttribute('data-index'));
+    const data = IMAGES[currentGridId][index];
+    return data && data.url;
+  });
+
+  if(mediaSlots.length === 0) return;
+
   const currentSlot = slots[currentImageIndex - 1];
-  const currentIndexInImages = imagesSlots.indexOf(currentSlot);
-  
-  let newIndexInImages = currentIndexInImages + direction;
-  if(newIndexInImages < 0) newIndexInImages = imagesSlots.length - 1;
-  if(newIndexInImages >= imagesSlots.length) newIndexInImages = 0;
-  
-  const newSlot = imagesSlots[newIndexInImages];
-  
+  const currentIndexInMedia = mediaSlots.indexOf(currentSlot);
+
+  let newIndexInMedia = currentIndexInMedia + direction;
+
+  if(newIndexInMedia < 0) newIndexInMedia = mediaSlots.length - 1;
+  if(newIndexInMedia >= mediaSlots.length) newIndexInMedia = 0;
+
+  const newSlot = mediaSlots[newIndexInMedia];
+
   const viewer = document.getElementById('fullscreenViewer');
+  const fullscreenVideo = document.getElementById('fullscreenVideo');
+
+  fullscreenVideo.pause();
   viewer.classList.remove('active');
-  
-  setTimeout(()=>{
-    openFullscreen(newSlot);
-  }, 300);
+
+  setTimeout(() => openFullscreen(newSlot), 300);
 }
 
-// Save note on edit
-document.getElementById('imageNote').addEventListener('blur', function(){
-  if(document.body.classList.contains('admin-mode')){
-    const noteKey = `${currentGridId}_${currentImageIndex}`;
-    imageNotes[noteKey] = this.textContent;
-  }
-});
-
-// Keyboard navigation
 document.addEventListener('keydown', function(e){
   const viewer = document.getElementById('fullscreenViewer');
   if(viewer.classList.contains('active')){
@@ -955,51 +903,12 @@ document.addEventListener('keydown', function(e){
   }
 });
 
-/* FILE UPLOAD */
-document.getElementById('fileIn').onchange=function(e){
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const num=activeSlot.querySelector('.slot-number').innerText;
-    const gridId = activeSlot.getAttribute('data-grid');
-    const index = activeSlot.getAttribute('data-index');
-    
-    activeSlot.innerHTML=`<img src="${ev.target.result}"><span class="slot-number">${num}</span>`;
-    activeSlot.style.opacity='1';
-    activeSlot.style.transform='scale(1)';
-    
-    const imageKey = `${gridId}_${index}`;
-    uploadedImages[imageKey] = ev.target.result;
-  };
-  reader.readAsDataURL(e.target.files[0]);
-};
-
-function triggerMainPhoto(){
-  if(document.body.classList.contains('admin-mode'))document.getElementById('mainPhotoIn').click();
-}
-
-document.getElementById('mainPhotoIn').onchange=function(e){
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    document.getElementById('letterDarkBg').style.backgroundImage=`url('${ev.target.result}')`;
-    mainPhoto = ev.target.result;
-  };
-  reader.readAsDataURL(e.target.files[0]);
-};
-
 /* MOUSE SPARKLES */
 document.addEventListener('mousemove',e=>{
   if(Math.random()>0.92){
     const s=document.createElement('div');s.className='sparkle';
     s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
     document.body.appendChild(s);setTimeout(()=>s.remove(),1500);
-  }
-});
-
-// Initialize editable storage on load
-window.addEventListener('load', function(){
-  if(document.body.classList.contains('admin-mode')){
-    loadAllData();
-    setupEditableAreas();
   }
 });
 </script>
