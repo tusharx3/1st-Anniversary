@@ -598,7 +598,11 @@ function unlock(){
   if(input.value===USER_PIN){
     const screen=document.getElementById('unlock-screen');
     screen.style.transition='opacity 1s ease';screen.style.opacity='0';
-    setTimeout(()=>{screen.style.display='none';document.getElementById('hero').classList.add('visible');},900);
+    setTimeout(()=>{
+      screen.style.display='none';
+      document.getElementById('hero').classList.add('visible');
+      loadAllData(); // Load saved data for everyone
+    },900);
   } else {
     input.classList.add('shake');input.value='';
     setTimeout(()=>input.classList.remove('shake'),400);
@@ -610,7 +614,6 @@ function adminLogin(){
   if(prompt("Admin Password:")===ADMIN_PASS){
     document.body.classList.add('admin-mode');
     document.getElementById('imageNote').contentEditable = 'true';
-    loadAllData(); // Load saved data
     alert("Admin Mode ON ✓");
   }
 }
@@ -858,13 +861,6 @@ document.addEventListener('mousemove',e=>{
     const s=document.createElement('div');s.className='sparkle';
     s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
     document.body.appendChild(s);setTimeout(()=>s.remove(),1500);
-  }
-});
-
-// Load data on page load if admin mode is already enabled
-window.addEventListener('load', function(){
-  if(document.body.classList.contains('admin-mode')){
-    loadAllData();
   }
 });
 </script>
