@@ -190,7 +190,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 .memory-slot.revealed{opacity:1;transform:scale(1);}
 .memory-slot:hover{box-shadow:0 8px 25px rgba(233,30,99,0.2);transform:scale(1.03);}
 .memory-slot img{width:100%;height:100%;object-fit:cover;}
-.slot-number{position:absolute;bottom:8px;right:12px;color:#4a1a25;font-size:0.6rem;}
+.slot-number{position:absolute;bottom:8px;right:12px;color:#4a1a25;font-size:0.6rem;z-index:2;}
 .slot-icon{color:#4a1a25;font-size:1.6rem;animation:pulseSoft 2.5s infinite;}
 
 .close-btn{
@@ -208,6 +208,41 @@ body.admin-mode .admin-only{display:block!important;}
   z-index:9999;font-size:1.2rem;transition:opacity 0.3s;
 }
 .admin-lock:hover{opacity:0.5;}
+
+/* ADMIN SAVE BUTTON */
+.admin-save-panel{
+  position:fixed;bottom:20px;right:20px;
+  background:linear-gradient(135deg,#ec407a,#ad1457);
+  padding:15px 25px;border-radius:50px;
+  box-shadow:0 8px 30px rgba(233,30,99,0.4);
+  z-index:9999;
+  display:none;align-items:center;gap:12px;
+  animation:slideInUp 0.5s cubic-bezier(.22,1,.36,1);
+}
+body.admin-mode .admin-save-panel{display:flex;}
+.save-btn{
+  background:rgba(255,255,255,0.25);
+  border:2px solid rgba(255,255,255,0.5);
+  color:#fff;padding:10px 24px;border-radius:25px;
+  font-family:'Montserrat',sans-serif;font-size:0.85rem;
+  letter-spacing:1.5px;cursor:pointer;
+  transition:all 0.3s ease;
+  font-weight:600;
+  backdrop-filter:blur(10px);
+}
+.save-btn:hover{
+  background:rgba(255,255,255,0.35);
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.save-btn:active{transform:translateY(0) scale(0.98);}
+.save-status{
+  color:#fff;font-size:0.75rem;letter-spacing:1px;
+  display:none;align-items:center;gap:6px;
+}
+.save-status.show{display:flex;}
+.save-status.success{color:#c8e6c9;}
+.save-status.error{color:#ffcdd2;}
 
 .floating-hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .fheart{position:absolute;bottom:-60px;font-size:1.2rem;animation:floatUp linear infinite;opacity:0;}
@@ -320,12 +355,15 @@ body.admin-mode .admin-only{display:block!important;}
   .fullscreen-nav{width:48px;height:48px;font-size:1.3rem;}
   .fullscreen-nav.prev{left:10px;}
   .fullscreen-nav.next{right:10px;}
+  .admin-save-panel{bottom:15px;right:15px;padding:12px 20px;}
+  .save-btn{padding:8px 18px;font-size:0.75rem;}
 }
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes namePop{
   0%{opacity:0;transform:scale(0.6) translateY(20px)}
   60%{transform:scale(1.05) translateY(-5px)}
@@ -478,6 +516,15 @@ body.admin-mode .admin-only{display:block!important;}
   </div>
 </div>
 
+<!-- ADMIN SAVE PANEL -->
+<div class="admin-save-panel">
+  <button class="save-btn" onclick="saveAllData()">💾 SAVE ALL</button>
+  <div class="save-status" id="saveStatus">
+    <span id="saveIcon">✓</span>
+    <span id="saveText">Saved!</span>
+  </div>
+</div>
+
 <div class="admin-lock" onclick="adminLogin()">🔒</div>
 <input type="file" id="fileIn" style="display:none;" accept="image/*">
 <input type="file" id="mainPhotoIn" style="display:none;" accept="image/*">
@@ -489,6 +536,8 @@ let activeSlot = null;
 let currentImageIndex = 0;
 let currentGridId = '';
 let imageNotes = {}; // Store notes for each image
+let uploadedImages = {}; // Store uploaded images
+let mainPhoto = null; // Store main background photo
 
 /* PETAL CANVAS */
 const canvas = document.getElementById('petals-canvas');
@@ -561,8 +610,75 @@ function adminLogin(){
   if(prompt("Admin Password:")===ADMIN_PASS){
     document.body.classList.add('admin-mode');
     document.getElementById('imageNote').contentEditable = 'true';
+    loadAllData(); // Load saved data
     alert("Admin Mode ON ✓");
   }
+}
+
+/* LOCAL STORAGE SAVE/LOAD */
+function saveAllData(){
+  const data = {
+    imageNotes: imageNotes,
+    uploadedImages: uploadedImages,
+    mainPhoto: mainPhoto
+  };
+  
+  try {
+    localStorage.setItem('anniversaryData', JSON.stringify(data));
+    showSaveStatus(true, 'All data saved! 💾');
+  } catch(e) {
+    showSaveStatus(false, 'Error saving data ⚠️');
+    console.error('Save error:', e);
+  }
+}
+
+function loadAllData(){
+  try {
+    const savedData = localStorage.getItem('anniversaryData');
+    if(savedData){
+      const data = JSON.parse(savedData);
+      imageNotes = data.imageNotes || {};
+      uploadedImages = data.uploadedImages || {};
+      mainPhoto = data.mainPhoto || null;
+      
+      // Restore main photo
+      if(mainPhoto){
+        document.getElementById('letterDarkBg').style.backgroundImage = `url('${mainPhoto}')`;
+      }
+      
+      // Restore uploaded images
+      Object.keys(uploadedImages).forEach(key => {
+        const [gridId, index] = key.split('_');
+        const grid = document.getElementById(gridId);
+        if(grid){
+          const slot = grid.querySelector(`[data-index="${index}"]`);
+          if(slot){
+            slot.innerHTML = `<img src="${uploadedImages[key]}"><span class="slot-number">${index}</span>`;
+            slot.style.opacity = '1';
+            slot.style.transform = 'scale(1)';
+          }
+        }
+      });
+      
+      console.log('Data loaded successfully!');
+    }
+  } catch(e) {
+    console.error('Load error:', e);
+  }
+}
+
+function showSaveStatus(success, message){
+  const status = document.getElementById('saveStatus');
+  const icon = document.getElementById('saveIcon');
+  const text = document.getElementById('saveText');
+  
+  status.className = 'save-status show ' + (success ? 'success' : 'error');
+  icon.textContent = success ? '✓' : '✕';
+  text.textContent = message;
+  
+  setTimeout(() => {
+    status.classList.remove('show');
+  }, 3000);
 }
 
 /* MODAL */
@@ -709,8 +825,16 @@ document.getElementById('fileIn').onchange=function(e){
   const reader=new FileReader();
   reader.onload=ev=>{
     const num=activeSlot.querySelector('.slot-number').innerText;
+    const gridId = activeSlot.getAttribute('data-grid');
+    const index = activeSlot.getAttribute('data-index');
+    
     activeSlot.innerHTML=`<img src="${ev.target.result}"><span class="slot-number">${num}</span>`;
-    activeSlot.style.opacity='1';activeSlot.style.transform='scale(1)';
+    activeSlot.style.opacity='1';
+    activeSlot.style.transform='scale(1)';
+    
+    // Store the image
+    const imageKey = `${gridId}_${index}`;
+    uploadedImages[imageKey] = ev.target.result;
   };
   reader.readAsDataURL(e.target.files[0]);
 };
@@ -721,7 +845,10 @@ function triggerMainPhoto(){
 
 document.getElementById('mainPhotoIn').onchange=function(e){
   const reader=new FileReader();
-  reader.onload=ev=>{document.getElementById('letterDarkBg').style.backgroundImage=`url('${ev.target.result}')`;};
+  reader.onload=ev=>{
+    document.getElementById('letterDarkBg').style.backgroundImage=`url('${ev.target.result}')`;
+    mainPhoto = ev.target.result; // Store the main photo
+  };
   reader.readAsDataURL(e.target.files[0]);
 };
 
@@ -731,6 +858,13 @@ document.addEventListener('mousemove',e=>{
     const s=document.createElement('div');s.className='sparkle';
     s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
     document.body.appendChild(s);setTimeout(()=>s.remove(),1500);
+  }
+});
+
+// Load data on page load if admin mode is already enabled
+window.addEventListener('load', function(){
+  if(document.body.classList.contains('admin-mode')){
+    loadAllData();
   }
 });
 </script>
