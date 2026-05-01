@@ -348,6 +348,29 @@ body.admin-mode .admin-save-panel{display:flex;}
   font-family:'Montserrat',sans-serif;font-style:normal;
 }
 
+/* ADMIN EDITABLE INDICATOR */
+.editable-indicator{
+  position:absolute;
+  top:0;right:0;
+  background:rgba(236,64,122,0.9);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:0 8px 0 0;
+  font-size:0.75rem;
+  font-weight:bold;
+  z-index:100;
+  display:none;
+}
+body.admin-mode .editable-indicator{display:block;}
+.editable-area{
+  outline:2px dashed transparent;
+  transition:outline 0.3s;
+}
+body.admin-mode .editable-area:hover{
+  outline:2px dashed rgba(236,64,122,0.7);
+  cursor:text;
+}
+
 @media(max-width:768px){
   .fullscreen-img{max-height:60vh;border-radius:12px;}
   .image-note{font-size:0.9rem;padding:18px 22px;}
@@ -423,15 +446,15 @@ body.admin-mode .admin-save-panel{display:flex;}
 
 <!-- HERO -->
 <div class="hero" id="hero">
-  <p class="hero-tag">✦ HAPPY ANNIVERSARY ✦</p>
-  <h1 class="name-text">Jhinuk</h1>
-  <p class="love-tag">WITH ALL MY LOVE 🌹</p>
+  <p class="hero-tag hero-tag-editable" data-field="heroTag">✦ HAPPY ANNIVERSARY ✦</p>
+  <h1 class="name-text name-text-editable" data-field="nameText">Jhinuk</h1>
+  <p class="love-tag love-tag-editable" data-field="loveTag">WITH ALL MY LOVE 🌹</p>
   <div class="heart-divider">
     <span></span>
     <span class="heart-pulse">♥</span>
     <span></span>
   </div>
-  <p class="quote-text">
+  <p class="quote-text quote-text-editable" data-field="quoteText">
     "You are the poem I never knew how to write,<br>
     the song that lives in the silence of my heart."
   </p>
@@ -439,14 +462,14 @@ body.admin-mode .admin-save-panel{display:flex;}
     <button class="card-btn" onclick="openModal('letterModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">💌</span>
-      <h3>Letters & Memories</h3>
-      <p>20+ photos · love note</p>
+      <h3><span class="btn-text" data-field="btnLetterTitle">Letters & Memories</span></h3>
+      <p><span class="btn-text-small" data-field="btnLetterDesc">20+ photos · love note</span></p>
     </button>
     <button class="card-btn" onclick="openModal('journeyModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">📖</span>
-      <h3>Our Love Journey</h3>
-      <p>Photo story of us</p>
+      <h3><span class="btn-text" data-field="btnJourneyTitle">Our Love Journey</span></h3>
+      <p><span class="btn-text-small" data-field="btnJourneyDesc">Photo story of us</span></p>
     </button>
   </div>
 </div>
@@ -456,27 +479,27 @@ body.admin-mode .admin-save-panel{display:flex;}
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('letterModal')">✕</button>
     <div class="letter-header-pink">
-      <h2>My Dearest Letter</h2>
-      <p>Written with every beat of my heart 💗</p>
+      <h2><span class="modal-header-text" data-field="letterHeader">My Dearest Letter</span></h2>
+      <p><span class="modal-subtext" data-field="letterSubheader">Written with every beat of my heart 💗</span></p>
     </div>
     <div class="letter-dark-section" id="letterDarkBg">
       <div class="dark-overlay admin-only"></div>
       <div class="dark-content">
-        <span class="rose-icon" onclick="triggerMainPhoto()">🌹</span>
+        <span class="rose-icon admin-only" onclick="triggerMainPhoto()">🌹</span>
         <p class="admin-only" style="font-size:0.6rem;color:#f8bbd0;margin-top:4px;">(Admin: click rose to change background)</p>
-        <h3 class="dearest-title">My Dearest Jhinuk 🌹</h3>
-        <p class="dark-tag">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</p>
+        <h3 class="dearest-title"><span class="dark-text" data-field="dearestTitle">My Dearest Jhinuk 🌹</span></h3>
+        <p class="dark-tag"><span class="dark-tag-text" data-field="darkTag">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</span></p>
       </div>
     </div>
     <div class="letter-content">
-      <p class="letter-para">My Dearest Jhinuk,</p>
-      <p class="letter-para">Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</p>
-      <p class="letter-para">Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</p>
-      <p class="letter-para">Thank you for being you. Thank you for choosing us, again and again, every single day.</p>
-      <p class="letter-para" style="text-align:right;margin-top:30px;font-style:italic;">Yours, always 🌹</p>
+      <p class="letter-para letter-para-editable" data-field="letterPara1"><span>My Dearest Jhinuk,</span></p>
+      <p class="letter-para letter-para-editable" data-field="letterPara2"><span>Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</span></p>
+      <p class="letter-para letter-para-editable" data-field="letterPara3"><span>Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</span></p>
+      <p class="letter-para letter-para-editable" data-field="letterPara4"><span>Thank you for being you. Thank you for choosing us, again and again, every single day.</span></p>
+      <p class="letter-para letter-para-editable" style="text-align:right;margin-top:30px;font-style:italic;" data-field="letterEnding"><span>Yours, always 🌹</span></p>
     </div>
     <div class="gallery-section">
-      <h3>Memory Gallery</h3>
+      <h3><span class="gallery-heading" data-field="galleryHeading">Memory Gallery</span></h3>
       <div class="memory-grid" id="letterGrid"></div>
     </div>
   </div>
@@ -487,11 +510,11 @@ body.admin-mode .admin-save-panel{display:flex;}
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('journeyModal')">✕</button>
     <div class="letter-header-pink" style="background:linear-gradient(135deg,#880e4f,#ad1457);">
-      <h2>Our Love Journey</h2>
-      <p>Every moment captured forever 🎞️</p>
+      <h2><span class="journey-header-text" data-field="journeyHeader">Our Love Journey</span></h2>
+      <p><span class="journey-subtext" data-field="journeySubheader">Every moment captured forever 🎞️</span></p>
     </div>
     <div class="journey-intro">
-      <p>From the very first glance to forever — every frame is a piece of us.</p>
+      <p><span class="journey-intro-text" data-field="journeyIntro">From the very first glance to forever — every frame is a piece of us.</span></p>
     </div>
     <div class="gallery-section">
       <div class="memory-grid" id="journeyGrid"></div>
@@ -518,7 +541,7 @@ body.admin-mode .admin-save-panel{display:flex;}
 
 <!-- ADMIN SAVE PANEL -->
 <div class="admin-save-panel">
-  <button class="save-btn" onclick="saveAllData()">💾 SAVE ALL</button>
+  <button class="save-btn" onclick="saveAllData()">💾 SAVE ALL CHANGES</button>
   <div class="save-status" id="saveStatus">
     <span id="saveIcon">✓</span>
     <span id="saveText">Saved!</span>
@@ -535,9 +558,10 @@ const ADMIN_PASS = "admin123";
 let activeSlot = null;
 let currentImageIndex = 0;
 let currentGridId = '';
-let imageNotes = {}; // Store notes for each image
-let uploadedImages = {}; // Store uploaded images
-let mainPhoto = null; // Store main background photo
+let imageNotes = {};
+let uploadedImages = {};
+let mainPhoto = null;
+let editableElements = {}; // Store references to editable elements
 
 /* PETAL CANVAS */
 const canvas = document.getElementById('petals-canvas');
@@ -601,7 +625,7 @@ function unlock(){
     setTimeout(()=>{
       screen.style.display='none';
       document.getElementById('hero').classList.add('visible');
-      loadAllData(); // Load saved data for everyone
+      loadAllData();
     },900);
   } else {
     input.classList.add('shake');input.value='';
@@ -609,21 +633,122 @@ function unlock(){
   }
 }
 
-/* ADMIN */
+/* ADMIN LOGIN */
 function adminLogin(){
   if(prompt("Admin Password:")===ADMIN_PASS){
     document.body.classList.add('admin-mode');
+    setupEditableAreas();
     document.getElementById('imageNote').contentEditable = 'true';
-    alert("Admin Mode ON ✓");
+    alert("Admin Mode ON ✓\n\nNow you can edit:\n✨ All Text & Quotes\n✨ Letter Content\n✨ Image Notes\n✨ Background Photos\n\nDon't forget to save! 💾");
   }
 }
 
-/* LOCAL STORAGE SAVE/LOAD */
+/* SETUP EDITABLE AREAS IN ADMIN MODE */
+function setupEditableAreas(){
+  // Hero Elements
+  const heroEditable = document.querySelectorAll('.hero-tag-editable, .name-text-editable, .love-tag-editable, .quote-text-editable');
+  heroEditable.forEach(el => {
+    el.classList.add('editable-area');
+    el.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
+      if(newText !== null && newText.trim() !== ""){
+        this.innerHTML = newText;
+        editableElements[field] = newText;
+        console.log(`${field} saved to memory`);
+      }
+    });
+  });
+
+  // Button Elements
+  const btnTexts = document.querySelectorAll('.btn-text, .btn-text-small');
+  btnTexts.forEach(btn => {
+    btn.classList.add('editable-area');
+    btn.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newText = prompt(`Edit button ${field}:`, this.innerText.trim());
+      if(newText !== null && newText.trim() !== ""){
+        this.innerText = newText;
+        editableElements[field] = newText;
+      }
+    });
+  });
+
+  // Modal Headers
+  const modalHeaders = document.querySelectorAll('.modal-header-text, .modal-subtext');
+  modalHeaders.forEach(hdr => {
+    hdr.classList.add('editable-area');
+    hdr.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
+      if(newText !== null && newText.trim() !== ""){
+        this.innerHTML = newText;
+        editableElements[field] = newText;
+      }
+    });
+  });
+
+  // Dark Section
+  const darkSections = document.querySelectorAll('.dark-text, .dark-tag-text');
+  darkSections.forEach(ds => {
+    ds.classList.add('editable-area');
+    ds.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
+      if(newText !== null && newText.trim() !== ""){
+        this.innerText = newText;
+        editableElements[field] = newText;
+      }
+    });
+  });
+
+  // Letter Content
+  const letterParas = document.querySelectorAll('.letter-para-editable');
+  letterParas.forEach(lp => {
+    lp.classList.add('editable-area');
+    lp.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newContent = prompt(`Edit ${field}:`, this.innerHTML);
+      if(newContent !== null && newContent.trim() !== ""){
+        this.innerHTML = newContent;
+        editableElements[field] = newContent;
+      }
+    });
+  });
+
+  // Gallery Sections
+  const galleryHeadings = document.querySelectorAll('.gallery-heading, .journey-header-text, .journey-subtext, .journey-intro-text');
+  galleryHeadings.forEach(gh => {
+    gh.classList.add('editable-area');
+    gh.addEventListener('click', function() {
+      const field = this.getAttribute('data-field');
+      const newText = prompt(`Edit ${field}:`, this.innerText.trim());
+      if(newText !== null && newText.trim() !== ""){
+        this.innerText = newText;
+        editableElements[field] = newText;
+      }
+    });
+  });
+
+  // Add visual indicator for all editable areas
+  setTimeout(() => {
+    const editable = document.querySelectorAll('.editable-area');
+    editable.forEach(el => {
+      const indicator = document.createElement('div');
+      indicator.className = 'editable-indicator';
+      indicator.textContent = 'EDIT';
+      el.appendChild(indicator);
+    });
+  }, 500);
+}
+
+/* LOCAL STORAGE */
 function saveAllData(){
   const data = {
     imageNotes: imageNotes,
     uploadedImages: uploadedImages,
-    mainPhoto: mainPhoto
+    mainPhoto: mainPhoto,
+    editableElements: editableElements
   };
   
   try {
@@ -643,6 +768,7 @@ function loadAllData(){
       imageNotes = data.imageNotes || {};
       uploadedImages = data.uploadedImages || {};
       mainPhoto = data.mainPhoto || null;
+      editableElements = data.editableElements || {};
       
       // Restore main photo
       if(mainPhoto){
@@ -660,6 +786,14 @@ function loadAllData(){
             slot.style.opacity = '1';
             slot.style.transform = 'scale(1)';
           }
+        }
+      });
+      
+      // Restore editable elements
+      Object.keys(editableElements).forEach(field => {
+        const element = document.querySelector(`[data-field="${field}"]`);
+        if(element){
+          element.innerHTML = editableElements[field];
         }
       });
       
@@ -727,7 +861,6 @@ function createGrid(gridId,count){
     };
     grid.appendChild(slot);
     
-    // Initialize default note
     const noteKey = `${gridId}_${i}`;
     if(!imageNotes[noteKey]){
       imageNotes[noteKey] = `This beautiful moment captured forever in our hearts... 💕`;
@@ -796,7 +929,6 @@ function navigateImage(direction){
   
   const newSlot = imagesSlots[newIndexInImages];
   
-  // Animate transition
   const viewer = document.getElementById('fullscreenViewer');
   viewer.classList.remove('active');
   
@@ -835,7 +967,6 @@ document.getElementById('fileIn').onchange=function(e){
     activeSlot.style.opacity='1';
     activeSlot.style.transform='scale(1)';
     
-    // Store the image
     const imageKey = `${gridId}_${index}`;
     uploadedImages[imageKey] = ev.target.result;
   };
@@ -850,7 +981,7 @@ document.getElementById('mainPhotoIn').onchange=function(e){
   const reader=new FileReader();
   reader.onload=ev=>{
     document.getElementById('letterDarkBg').style.backgroundImage=`url('${ev.target.result}')`;
-    mainPhoto = ev.target.result; // Store the main photo
+    mainPhoto = ev.target.result;
   };
   reader.readAsDataURL(e.target.files[0]);
 };
@@ -861,6 +992,14 @@ document.addEventListener('mousemove',e=>{
     const s=document.createElement('div');s.className='sparkle';
     s.style.left=e.clientX+'px';s.style.top=e.clientY+'px';
     document.body.appendChild(s);setTimeout(()=>s.remove(),1500);
+  }
+});
+
+// Initialize editable storage on load
+window.addEventListener('load', function(){
+  if(document.body.classList.contains('admin-mode')){
+    loadAllData();
+    setupEditableAreas();
   }
 });
 </script>
