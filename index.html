@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Anniversary My Love ♾️</title>
+<title>Happy Anniversary Jhinuk ♾️</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary-pink: #ff85a2; /* Soft Hot Pink */
+    --primary-pink: #ff85a2;
     --blush: #ffb7c5;
     --petal: #fff0f3;
     --rose-gold: #eeb4b4;
@@ -23,24 +23,11 @@
     background: var(--cream);
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
-    cursor: default;
   }
 
-  /* ===== FLOATING HEARTS BACKGROUND ===== */
-  .hearts-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .heart-float {
-    position: absolute;
-    bottom: -60px;
-    font-size: 1.2rem;
-    opacity: 0;
-    animation: floatUp linear infinite;
-  }
+  /* ===== FLOATING HEARTS ===== */
+  .hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .heart-float { position: absolute; bottom: -60px; font-size: 1.2rem; opacity: 0; animation: floatUp linear infinite; }
   @keyframes floatUp {
     0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
     100% { transform: translateY(-110vh) rotate(30deg); opacity: 0; }
@@ -48,393 +35,60 @@
 
   /* ===== PIN LOCK SCREEN ===== */
   #pin-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
     background: radial-gradient(circle, #ffc2d1 0%, #ff85a2 100%);
-    transition: opacity 0.8s ease, visibility 0.8s;
+    transition: 0.8s ease;
   }
-  #pin-screen.unlocked {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .pin-petals {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .pin-petal {
-    position: absolute;
-    font-size: 1.4rem;
-    opacity: 0.3;
-    animation: drift 8s ease-in-out infinite;
-  }
-  @keyframes drift {
-    0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
-    50% { transform: translateX(20px) translateY(-30px) rotate(20deg); }
-  }
+  #pin-screen.unlocked { opacity: 0; visibility: hidden; }
 
   .pin-box {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 3rem 2.5rem;
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 24px;
-    backdrop-filter: blur(15px);
-    max-width: 360px;
-    width: 90%;
-    box-shadow: 0 20px 40px rgba(214, 51, 132, 0.2);
-  }
-
-  .lock-icon {
-    font-size: 3rem;
-    margin-bottom: 0.8rem;
-    animation: lockPulse 2s ease-in-out infinite;
-    display: block;
-  }
-  @keyframes lockPulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
-    50% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(255, 255, 255, 1)); }
-  }
-
-  .pin-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 2.4rem;
-    color: var(--berry);
-    margin-bottom: 0.3rem;
-  }
-  .pin-subtitle {
-    font-size: 0.9rem;
-    color: var(--deep-pink);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
-
-  .pin-input-wrap {
-    position: relative;
-    margin-bottom: 1.2rem;
-  }
-  #pin-input {
-    width: 100%;
-    padding: 0.9rem 1.2rem;
-    background: rgba(255, 255, 255, 0.8);
-    border: 2px solid var(--blush);
-    border-radius: 12px;
-    color: var(--berry);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    letter-spacing: 4px;
-    text-align: center;
-    outline: none;
-    transition: all 0.3s;
-  }
-  #pin-input:focus {
-    border-color: var(--primary-pink);
-    box-shadow: 0 0 15px rgba(255, 133, 162, 0.4);
-  }
-  #pin-input.shake { animation: shake 0.5s ease; border-color: var(--berry); }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-8px); }
-    40%, 80% { transform: translateX(8px); }
+    text-align: center; padding: 3rem 2.5rem; background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 24px;
+    backdrop-filter: blur(15px); max-width: 360px; width: 90%;
   }
 
   .pin-btn {
-    width: 100%;
-    padding: 0.9rem;
-    background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .pin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
-  }
-  .pin-error {
-    color: var(--berry);
-    font-size: 0.85rem;
-    margin-top: 0.7rem;
-    min-height: 1.2rem;
-    font-weight: bold;
+    width: 100%; padding: 0.9rem; background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
+    border: none; border-radius: 12px; color: white; font-family: 'Great Vibes', cursive;
+    font-size: 1.5rem; cursor: pointer; margin-top: 10px;
   }
 
-  /* ===== MAIN SITE ===== */
-  #main-site { position: relative; z-index: 1; opacity: 0; transition: opacity 1s ease 0.5s; }
-  #main-site.visible { opacity: 1; }
+  /* ===== ADMIN PANEL UI (Hidden by default) ===== */
+  .admin-only { display: none; }
+  body.is-admin .admin-only { display: block; }
+
+  #pin-input {
+    width: 100%; padding: 0.9rem; border: 2px solid var(--blush); border-radius: 12px;
+    text-align: center; font-size: 1.3rem; outline: none;
+  }
 
   /* ===== HERO ===== */
   .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    padding: 2rem;
-    background: radial-gradient(circle at top, #fff0f3 0%, var(--cream) 100%);
-    overflow: hidden;
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 2rem; position: relative; z-index: 1;
   }
 
   .anniversary-name {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(4rem, 12vw, 9rem);
-    color: var(--deep-pink);
-    text-shadow: 2px 2px 0px rgba(255, 183, 197, 0.3);
-    line-height: 1;
-    text-align: center;
-    animation: nameReveal 1.2s ease 0.3s both;
-    z-index: 2;
-  }
-
-  .happy-anniversary-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1rem, 3.5vw, 1.8rem);
-    color: var(--primary-pink);
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    animation: fadeUp 1s ease 0.1s both;
-    z-index: 2;
-  }
-
-  .hero-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 2.5vw, 1.35rem);
-    color: var(--berry);
-    font-style: italic;
-    text-align: center;
-    max-width: 600px;
-    line-height: 1.8;
-    margin-top: 1.2rem;
-    animation: fadeUp 1s ease 0.6s both;
-    z-index: 2;
-  }
-
-  .divider-hearts {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 1.5rem 0;
-    color: var(--rose-gold);
-    font-size: 1.1rem;
-    animation: fadeUp 1s ease 0.4s both;
-    z-index: 2;
-  }
-
-  @keyframes fadeUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ===== BUTTONS ===== */
-  .btn-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 2.5rem;
-    animation: fadeUp 1s ease 0.9s both;
-    z-index: 2;
-  }
-
-  .cta-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 1.4rem 2.2rem;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 220px;
-  }
-  .cta-btn:hover { transform: translateY(-5px); }
-
-  .btn-letter {
-    background: linear-gradient(135deg, var(--deep-pink), var(--berry));
-    color: white;
-    box-shadow: 0 8px 25px rgba(164, 19, 60, 0.2);
-  }
-  .btn-story {
-    background: linear-gradient(135deg, var(--primary-pink), var(--rose-gold));
-    color: white;
-    box-shadow: 0 8px 25px rgba(255, 133, 162, 0.2);
-  }
-
-  /* ===== SURPRISE ORB ===== */
-  .surprise-orb {
-    position: fixed;
-    right: 24px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-  }
-  .orb-ring {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-pink), var(--berry));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    animation: orbPulse 2.5s ease-in-out infinite;
-    flex-direction: column;
-  }
-  @keyframes orbPulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 133, 162, 0.6); }
-    60% { box-shadow: 0 0 0 18px rgba(255, 133, 162, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 133, 162, 0); }
+    font-family: 'Great Vibes', cursive; font-size: clamp(4rem, 12vw, 9rem);
+    color: var(--deep-pink); margin: 10px 0;
   }
 
   /* ===== MODALS ===== */
   .modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    background: rgba(164, 19, 60, 0.4);
-    backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.4s;
+    position: fixed; inset: 0; z-index: 500; background: rgba(164, 19, 60, 0.4);
+    backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 1.5rem;
   }
-  .modal-overlay.open { opacity: 1; visibility: visible; }
-
-  .modal {
-    background: var(--soft-white);
-    border-radius: 28px;
-    max-width: 700px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    transform: scale(0.9);
-    transition: 0.4s;
-  }
-  .modal-overlay.open .modal { transform: scale(1); }
-
-  .modal-header {
-    background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
-    padding: 2rem;
-    border-radius: 28px 28px 0 0;
-    text-align: center;
-    color: white;
-  }
-  .modal-header h2 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; }
-
-  .modal-close {
-    position: absolute;
-    top: 1rem; right: 1.2rem;
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
-    color: white;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--soft-white); border-radius: 28px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+  .modal-header { background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink)); padding: 2rem; color: white; text-align: center; }
   .modal-body { padding: 2rem; }
 
-  .letter-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    line-height: 2;
-    color: var(--berry);
-    white-space: pre-line;
-    background: var(--petal);
-    border: 1px solid var(--blush);
-    border-radius: 16px;
-    padding: 2rem;
-    font-style: italic;
-  }
-
-  .photos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .photo-slot {
-    aspect-ratio: 1;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 2px solid var(--blush);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--petal);
-    cursor: pointer;
-  }
-  .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: none; }
-
-  .story-timeline { position: relative; padding-left: 40px; }
-  .story-timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px; top: 0; bottom: 0;
-    width: 2px;
-    background: var(--blush);
-  }
-  .story-item { margin-bottom: 2.5rem; position: relative; }
-  .story-dot {
-    position: absolute;
-    left: -40px;
-    width: 24px; height: 24px;
-    background: var(--primary-pink);
-    border-radius: 50%;
-    border: 4px solid var(--soft-white);
-  }
-  .story-photo {
-    width: 100%; height: 200px;
-    background: var(--petal);
-    border-radius: 12px;
-    margin-top: 10px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .story-photo img { width: 100%; height: 100%; object-fit: cover; display: none; }
-
-  .sparkle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    font-size: 1.2rem;
-    animation: sparkleAnim 0.8s ease forwards;
-  }
-  @keyframes sparkleAnim {
-    0% { opacity: 1; transform: scale(0); }
-    100% { opacity: 0; transform: scale(1.5) translateY(-40px); }
-  }
-
-  .balloon { position: absolute; font-size: 2rem; animation: balloonFloat ease-in-out infinite; opacity: 0.6; }
-  @keyframes balloonFloat {
-    0%, 100% { transform: translateY(0) rotate(-5deg); }
-    50% { transform: translateY(-25px) rotate(5deg); }
-  }
-
-  .upload-input { display: none; }
+  /* Grid & Story */
+  .photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem; }
+  .photo-slot { aspect-ratio: 1; border-radius: 14px; border: 2px solid var(--blush); overflow: hidden; background: var(--petal); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+  
+  .admin-logout { position: fixed; bottom: 20px; left: 20px; z-index: 1000; background: var(--berry); color: white; padding: 10px; border-radius: 10px; cursor: pointer; border: none; font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -443,254 +97,142 @@
 
 <!-- PIN SCREEN -->
 <div id="pin-screen">
-  <div class="pin-petals" id="pinPetals"></div>
   <div class="pin-box">
-    <span class="lock-icon">🌸</span>
-    <div class="pin-title">Our Love Vault</div>
-    <div class="pin-subtitle">Unlock Our Memories</div>
-    <div class="pin-input-wrap">
-      <input type="text" id="pin-input" placeholder="DDMMYYYY" autocomplete="off" />
-    </div>
-    <button class="pin-btn" onclick="checkPin()">Enter Forever ♾️</button>
-    <div class="pin-error" id="pin-error"></div>
+    <span style="font-size: 3rem;">🌸</span>
+    <h2 class="pin-title" style="font-family:'Great Vibes'; color: var(--berry);">For Jhinuk's Eyes Only</h2>
+    <p style="margin-bottom: 20px; color: var(--deep-pink);">Enter the special date to enter</p>
+    <input type="text" id="pin-input" placeholder="DDMMYYYY" />
+    <button class="pin-btn" onclick="login()">Enter Forever ♾️</button>
+    <p id="error-msg" style="color: var(--berry); margin-top: 10px; font-size: 0.9rem; font-weight: bold;"></p>
   </div>
 </div>
 
 <!-- MAIN SITE -->
-<div id="main-site">
-
-  <div class="surprise-orb">
-    <div class="orb-ring" onclick="openModal('surprise-modal'); createSparkles(event)">
-      <span class="orb-icon">🥂</span>
-      <span style="font-size: 0.5rem; color: white;">CHEERS!</span>
-    </div>
-  </div>
+<div id="main-content" style="display: none;">
+  <button class="admin-logout admin-only" onclick="logout()">Logout Admin</button>
 
   <section class="hero">
-    <div class="confetti-wrap" id="confettiWrap"></div>
-
-    <span class="balloon" style="left:5%;top:20%;animation-duration:4s;">💗</span>
-    <span class="balloon" style="left:90%;top:15%;animation-duration:5s;">♾️</span>
-    <span class="balloon" style="left:12%;top:65%;animation-duration:4.5s;">💒</span>
-    <span class="balloon" style="left:85%;top:70%;animation-duration:3.8s;">🌸</span>
-    <span class="balloon" style="left:50%;top:8%;animation-duration:5.5s;">✨</span>
-
-    <p class="happy-anniversary-text">✦ Happy Anniversary ✦</p>
-    <h1 class="anniversary-name">Proyoshee</h1>
-
-    <div class="divider-hearts">
-      🌸 <span>another beautiful year of us</span> 🌸
-    </div>
-
-    <p class="hero-quote">
-      "In a world of constant change, you are my beautiful constant.<br>
-      Thank you for another year of laughter, growth, and unconditional love.<br>
-      To many more lifetimes with you, <em>my Proyoshee.</em>"
-    </p>
-
-    <div class="btn-section">
-      <button class="cta-btn btn-letter" onclick="openModal('letter-modal'); createSparkles(event)">
-        <span class="btn-icon">💌</span>
-        <span class="btn-title">An Anniversary Note</span>
-        <span class="btn-sub">Our year in words</span>
-      </button>
-      <button class="cta-btn btn-story" onclick="openModal('story-modal'); createSparkles(event)">
-        <span class="btn-icon">♾️</span>
-        <span class="btn-title">The Story Continues</span>
-        <span class="btn-sub">Our timeline of love</span>
-      </button>
+    <p style="letter-spacing: 5px; color: var(--primary-pink); font-weight: bold;">✦ HAPPY ANNIVERSARY ✦</p>
+    <h1 class="anniversary-name">Jhinuk</h1>
+    <p style="color: var(--rose-gold); margin-bottom: 20px;">🌸 <span>another beautiful year of us</span> 🌸</p>
+    
+    <div style="display: flex; gap: 15px;">
+        <button class="pin-btn" style="width: auto; padding: 15px 30px;" onclick="openModal('letter-modal')">Our Letter 💌</button>
+        <button class="pin-btn" style="width: auto; padding: 15px 30px; background: var(--primary-pink);" onclick="openModal('story-modal')">Our Story ♾️</button>
     </div>
   </section>
-
 </div>
 
 <!-- LETTER MODAL -->
 <div class="modal-overlay" id="letter-modal">
   <div class="modal">
     <div class="modal-header">
-      <button class="modal-close" onclick="closeModal('letter-modal')">✕</button>
-      <h2>To My Partner in Everything</h2>
+      <button style="float: right; background: none; border: none; color: white; cursor: pointer;" onclick="closeModal('letter-modal')">✕</button>
+      <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem;">To My Dearest Jhinuk</h2>
     </div>
     <div class="modal-body">
-      <div class="letter-text">
-My Dearest Proyoshee,
-
-As we celebrate another milestone in our journey, I find myself looking back at the year we’ve shared with so much awe. 
-
-They say time flies when you’re having fun, but with you, time doesn't just fly—it feels meaningful. Whether it was the big adventures or the quiet Tuesday nights on the couch, every second spent by your side is a second I cherish.
-
-Thank you for being my rock, my best friend, and my greatest love. Thank you for the way you handle my moods, the way you inspire my dreams, and the way you make me feel like the luckiest person alive just by being yourself.
-
-Here’s to the memories we’ve made and the thousands more waiting for us just around the corner.
-
-Happy Anniversary, my beautiful Proyoshee.
-Yours forever and a day, 🌸
+      <div style="font-style: italic; line-height: 1.8; color: var(--berry); background: var(--petal); padding: 20px; border-radius: 15px;">
+        My Dearest Jhinuk,
+        Another year has passed, and my love for you has only grown deeper. You are my light, my happiness, and my soulmate. Thank you for being by my side.
       </div>
-      <p style="margin-top:2rem; font-weight:bold; color:var(--deep-pink);">📸 Our Year in Frames</p>
+      <h3 style="margin: 20px 0; color: var(--deep-pink);">Our Memories (Admin Only to Edit)</h3>
       <div class="photos-grid" id="photosGrid"></div>
-      <input type="file" class="upload-input" id="photoUpload" accept="image/*" />
     </div>
   </div>
 </div>
 
 <!-- STORY MODAL -->
 <div class="modal-overlay" id="story-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <button class="modal-close" onclick="closeModal('story-modal')">✕</button>
-      <h2>Our Growing Love</h2>
+    <div class="modal">
+      <div class="modal-header">
+        <button style="float: right; background: none; border: none; color: white; cursor: pointer;" onclick="closeModal('story-modal')">✕</button>
+        <h2 style="font-family: 'Great Vibes'; font-size: 2.5rem;">The Jhinuk & Madhujoy Story</h2>
+      </div>
+      <div class="modal-body" id="storyTimeline">
+        <!-- Story items here -->
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="story-timeline" id="storyTimeline"></div>
-    </div>
-  </div>
 </div>
 
-<!-- SURPRISE MODAL -->
-<div class="modal-overlay" id="surprise-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <button class="modal-close" onclick="closeModal('surprise-modal')">✕</button>
-      <h2>The Anniversary Promise</h2>
-    </div>
-    <div class="modal-body" style="text-align:center;">
-        <span style="font-size:4rem;">💍</span>
-        <h3 style="font-family:'Great Vibes'; font-size:2.5rem; color:var(--deep-pink);">I Promise You...</h3>
-        <div class="letter-text" style="text-align:left;">
-            🌸 To choose you every single morning.<br>
-            💫 To listen even when the world gets loud.<br>
-            ✨ To keep dating you, even when we're old and grey.<br>
-            💕 To be your safest place and your biggest fan.<br><br>
-            You aren't just my past and my present—you are my entire future.
-        </div>
-        <div style="font-family:'Great Vibes'; font-size:2rem; margin-top:1rem; color:var(--berry);">— Forever Yours ♾️</div>
-    </div>
-  </div>
-</div>
+<input type="file" id="fileInput" style="display: none;" accept="image/*" />
 
 <script>
-  // ===== PIN =====
-  const CORRECT_PIN = '02052025';
+  const PIN = "02052025";
 
-  document.getElementById('pin-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPin();
-  });
-
-  function checkPin() {
-    const val = document.getElementById('pin-input').value;
-    const errEl = document.getElementById('pin-error');
-    if (val === CORRECT_PIN) {
-      document.getElementById('pin-screen').classList.add('unlocked');
-      document.getElementById('main-site').classList.add('visible');
-      startConfetti();
+  // Login Logic
+  function login() {
+    const input = document.getElementById('pin-input').value;
+    if (input === PIN) {
+      localStorage.setItem('isAdmin', 'true');
+      showMainContent();
     } else {
-      const input = document.getElementById('pin-input');
-      input.classList.add('shake');
-      setTimeout(() => input.classList.remove('shake'), 500);
-      errEl.textContent = '✦ That is not our date...';
-      input.value = '';
+      document.getElementById('error-msg').innerText = "Incorrect date, try again love!";
     }
   }
 
+  function logout() {
+    localStorage.removeItem('isAdmin');
+    location.reload();
+  }
+
+  function showMainContent() {
+    document.getElementById('pin-screen').classList.add('unlocked');
+    document.getElementById('main-content').style.display = 'block';
+    if (localStorage.getItem('isAdmin') === 'true') {
+      document.body.classList.add('is-admin');
+    }
+  }
+
+  // Modals
+  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  // Hearts Animation
   function createHearts() {
     const bg = document.getElementById('heartsBg');
-    const emojis = ['🌸','💗','💍','✨','💕','💒','💖','♾️'];
-    for (let i = 0; i < 25; i++) {
+    const emojis = ['🌸','💗','💍','✨','💕'];
+    for (let i = 0; i < 20; i++) {
       const el = document.createElement('div');
       el.className = 'heart-float';
       el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
       el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (8 + Math.random() * 12) + 's';
-      el.style.animationDelay = (Math.random() * 10) + 's';
+      el.style.animationDuration = (5 + Math.random() * 10) + 's';
       bg.appendChild(el);
     }
   }
   createHearts();
 
-  function startConfetti() {
-    const wrap = document.body;
-    const colors = ['#ff85a2','#ffb7c5','#d63384','#a4133c'];
-    for (let i = 0; i < 60; i++) {
-      const el = document.createElement('div');
-      el.style.position = 'absolute';
-      el.style.width = '10px';
-      el.style.height = '10px';
-      el.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-      el.style.left = Math.random()*100+'%';
-      el.style.top = '-20px';
-      el.style.zIndex = '10000';
-      el.style.borderRadius = '50%';
-      document.body.appendChild(el);
-      
-      const anim = el.animate([
-        { transform: 'translateY(0) rotate(0)', opacity: 1 },
-        { transform: `translateY(100vh) rotate(${Math.random()*360}deg)`, opacity: 0 }
-      ], { duration: 3000 + Math.random()*2000, easing: 'linear' });
-      
-      anim.onfinish = () => el.remove();
-    }
-  }
-
-  function createSparkles(e) {
-    const sparks = ['✨','🌸','💖','⭐','🌟','💫'];
-    for (let i = 0; i < 8; i++) {
-      const s = document.createElement('div');
-      s.className = 'sparkle';
-      s.textContent = sparks[Math.floor(Math.random()*sparks.length)];
-      s.style.left = e.clientX + 'px';
-      s.style.top = e.clientY + 'px';
-      document.body.appendChild(s);
-      setTimeout(()=>s.remove(), 800);
-    }
-  }
-
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
+  // Photo System
   const grid = document.getElementById('photosGrid');
-  let activeIdx = null;
-  for(let i=0; i<20; i++) {
+  let currentTarget = null;
+
+  for(let i=0; i<12; i++) {
     const slot = document.createElement('div');
     slot.className = 'photo-slot';
-    slot.innerHTML = `<span>📸</span><img src="" />`;
-    slot.onclick = () => { activeIdx = i; document.getElementById('photoUpload').click(); };
+    slot.innerHTML = '<span>📸</span>';
+    slot.onclick = function() {
+        if(document.body.classList.contains('is-admin')) {
+            currentTarget = this;
+            document.getElementById('fileInput').click();
+        } else {
+            alert("Only Admin can edit photos!");
+        }
+    };
     grid.appendChild(slot);
   }
 
-  document.getElementById('photoUpload').onchange = (e) => {
+  document.getElementById('fileInput').onchange = function(e) {
     const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = (typeof activeIdx === 'string') ? document.getElementById('img-' + activeIdx) : grid.children[activeIdx].querySelector('img');
-      img.src = ev.target.result;
-      img.style.display = 'block';
-      if(typeof activeIdx === 'number') grid.children[activeIdx].querySelector('span').style.display = 'none';
+    reader.onload = function(event) {
+        currentTarget.innerHTML = `<img src="${event.target.result}" />`;
     };
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const stories = [
-    { date: 'Step 1', title: 'The Beginning', desc: 'Where our hearts first found their match.' },
-    { date: 'Step 2', title: 'Building Us', desc: 'Laughter, growing pains, and deep talks.' },
-    { date: 'Step 3', title: 'Life Together', desc: 'The comfort of your presence every day.' },
-    { date: 'Step 4', title: 'Infinite Future', desc: 'Excited for everything that comes next.' }
-  ];
-
-  const timeline = document.getElementById('storyTimeline');
-  stories.forEach((s, i) => {
-    const item = document.createElement('div');
-    item.className = 'story-item';
-    item.innerHTML = `
-      <div class="story-dot"></div>
-      <div style="font-weight:bold; color:var(--deep-pink);">${s.date}</div>
-      <div style="font-family:'Playfair Display'; font-size:1.2rem; color:var(--berry);">${s.title}</div>
-      <div style="font-style:italic;">${s.desc}</div>
-      <div class="story-photo" onclick="activeIdx='s${i}'; document.getElementById('photoUpload').click()">
-        <span style="font-size:0.8rem; color:var(--primary-pink);">Click to add photo</span>
-        <img id="img-s${i}" />
-      </div>
-    `;
-    timeline.appendChild(item);
-  });
+  // Auto-load if already logged in
+  if (localStorage.getItem('isAdmin') === 'true') {
+    showMainContent();
+  }
 </script>
 </body>
 </html>
