@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -209,6 +209,183 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 }
 .close-btn:hover{background:rgba(255,255,255,0.35);transform:rotate(90deg);}
 
+/* ADMIN PANEL */
+.admin-only{display:none!important;}
+body.admin-mode .admin-only{display:block!important;}
+.admin-lock{
+  position:fixed;bottom:15px;left:15px;opacity:0.15;cursor:pointer;
+  z-index:9999;font-size:1.2rem;transition:opacity 0.3s;
+}
+.admin-lock:hover{opacity:0.5;}
+
+.admin-save-panel{
+  position:fixed;bottom:20px;right:20px;
+  background:linear-gradient(135deg,#ec407a,#ad1457);
+  padding:15px 25px;border-radius:50px;
+  box-shadow:0 8px 30px rgba(233,30,99,0.4);
+  z-index:9999;
+  display:none;align-items:center;gap:12px;
+  animation:slideInUp 0.5s cubic-bezier(.22,1,.36,1);
+}
+body.admin-mode .admin-save-panel{display:flex;}
+.save-btn{
+  background:rgba(255,255,255,0.25);
+  border:2px solid rgba(255,255,255,0.5);
+  color:#fff;padding:10px 24px;border-radius:25px;
+  font-family:'Montserrat',sans-serif;font-size:0.85rem;
+  letter-spacing:1.5px;cursor:pointer;
+  transition:all 0.3s ease;
+  font-weight:600;
+  backdrop-filter:blur(10px);
+}
+.save-btn:hover{
+  background:rgba(255,255,255,0.35);
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.save-btn:active{transform:translateY(0) scale(0.98);}
+.save-status{
+  color:#fff;font-size:0.75rem;letter-spacing:1px;
+  display:none;align-items:center;gap:6px;
+}
+.save-status.show{display:flex;}
+.save-status.success{color:#c8e6c9;}
+.save-status.error{color:#ffcdd2;}
+
+.editable-indicator{
+  position:absolute;
+  top:-2px;right:-2px;
+  background:rgba(236,64,122,0.9);
+  color:#fff;
+  padding:4px 10px;
+  border-radius:0 8px 0 8px;
+  font-size:0.65rem;
+  font-weight:bold;
+  z-index:100;
+  display:none;
+  font-family:'Montserrat',sans-serif;
+  letter-spacing:1px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+body.admin-mode .editable-indicator{display:block;}
+.editable-area{
+  outline:2px dashed transparent;
+  transition:outline 0.3s;
+  position:relative;
+}
+body.admin-mode .editable-area:hover{
+  outline:2px dashed rgba(236,64,122,0.7);
+  cursor:pointer;
+}
+
+.size-control-popup{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%, -50%) scale(0.8);
+  background:linear-gradient(135deg,#fff,#fce4ec);
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  z-index:11000;
+  display:none;
+  min-width:350px;
+  opacity:0;
+  transition:all 0.3s cubic-bezier(.22,1,.36,1);
+}
+.size-control-popup.active{
+  display:block;
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
+}
+.size-control-popup h3{
+  font-family:'Great Vibes',cursive;
+  color:var(--main-pink);
+  font-size:2rem;
+  margin-bottom:20px;
+  text-align:center;
+}
+.size-control-group{
+  margin-bottom:20px;
+}
+.size-control-group label{
+  display:block;
+  color:#ad1457;
+  font-size:0.85rem;
+  margin-bottom:8px;
+  font-weight:600;
+  letter-spacing:1px;
+}
+.size-control-group input[type="range"]{
+  width:100%;
+  height:6px;
+  border-radius:5px;
+  background:linear-gradient(90deg,#f8bbd0,#ec407a);
+  outline:none;
+  -webkit-appearance:none;
+}
+.size-control-group input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--main-pink);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(233,30,99,0.4);
+}
+.size-control-group input[type="range"]::-moz-range-thumb{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:var(--main-pink);
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(233,30,99,0.4);
+  border:none;
+}
+.size-value{
+  display:inline-block;
+  background:rgba(233,30,99,0.1);
+  padding:4px 12px;
+  border-radius:12px;
+  font-size:0.8rem;
+  color:var(--main-pink);
+  font-weight:bold;
+  margin-left:10px;
+}
+.size-control-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:25px;
+}
+.size-control-buttons button{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  font-weight:600;
+  letter-spacing:1px;
+  transition:all 0.3s ease;
+  font-size:0.85rem;
+}
+.size-apply-btn{
+  background:linear-gradient(135deg,#ec407a,#ad1457);
+  color:#fff;
+  box-shadow:0 4px 15px rgba(233,30,99,0.3);
+}
+.size-apply-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(233,30,99,0.4);
+}
+.size-cancel-btn{
+  background:#f0f0f0;
+  color:#666;
+}
+.size-cancel-btn:hover{
+  background:#e0e0e0;
+}
+
 .floating-hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .fheart{position:absolute;bottom:-60px;font-size:1.2rem;animation:floatUp linear infinite;opacity:0;}
 
@@ -268,6 +445,18 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
   font-style:italic;
   box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
+.image-note.editable{
+  cursor:text;transition:all 0.3s ease;
+}
+.image-note.editable:hover{
+  background:linear-gradient(135deg,rgba(236,64,122,0.25),rgba(173,20,87,0.25));
+  border-color:rgba(248,187,208,0.5);
+}
+.admin-edit-hint{
+  font-size:0.7rem;color:rgba(248,187,208,0.6);
+  margin-top:10px;letter-spacing:1px;
+  font-family:'Montserrat',sans-serif;font-style:normal;
+}
 .image-number{
   display:inline-block;
   background:linear-gradient(135deg,#ec407a,#ad1457);
@@ -315,12 +504,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
   .fullscreen-nav{width:48px;height:48px;font-size:1.3rem;}
   .fullscreen-nav.prev{left:10px;}
   .fullscreen-nav.next{right:10px;}
+  .size-control-popup{min-width:300px;padding:25px;}
+  .admin-save-panel{bottom:15px;right:15px;padding:12px 20px;}
+  .save-btn{padding:8px 18px;font-size:0.75rem;}
 }
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes namePop{
   0%{opacity:0;transform:scale(0.6) translateY(20px)}
   60%{transform:scale(1.05) translateY(-5px)}
@@ -368,6 +561,19 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 <div class="floating-hearts" id="floatingHearts"></div>
 <canvas id="petals-canvas"></canvas>
 
+<!-- SIZE CONTROL POPUP -->
+<div class="size-control-popup" id="sizeControlPopup">
+  <h3>Edit Text Size ✨</h3>
+  <div class="size-control-group">
+    <label>Font Size: <span class="size-value" id="sizeValueDisplay">16px</span></label>
+    <input type="range" id="fontSizeSlider" min="8" max="120" value="16" step="1">
+  </div>
+  <div class="size-control-buttons">
+    <button class="size-cancel-btn" onclick="closeSizeControl()">Cancel</button>
+    <button class="size-apply-btn" onclick="applySizeChange()">Apply ✓</button>
+  </div>
+</div>
+
 <div id="unlock-screen">
   <div id="unlock-box">
     <h2>Hello Jhinuk 🌸</h2>
@@ -378,15 +584,25 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
 </div>
 
 <div class="hero" id="hero">
-  <p class="hero-tag">✦ HAPPY ANNIVERSARY ✦</p>
-  <h1 class="name-text">Jhinuk</h1>
-  <p class="love-tag">WITH ALL MY LOVE 🌹</p>
+  <p class="hero-tag editable-area" data-field="heroTag">
+    <span class="editable-indicator">EDIT</span>
+    ✦ HAPPY ANNIVERSARY ✦
+  </p>
+  <h1 class="name-text editable-area" data-field="nameText">
+    <span class="editable-indicator">EDIT</span>
+    Jhinuk
+  </h1>
+  <p class="love-tag editable-area" data-field="loveTag">
+    <span class="editable-indicator">EDIT</span>
+    WITH ALL MY LOVE 🌹
+  </p>
   <div class="heart-divider">
     <span></span>
     <span class="heart-pulse">♥</span>
     <span></span>
   </div>
-  <p class="quote-text">
+  <p class="quote-text editable-area" data-field="quoteText">
+    <span class="editable-indicator">EDIT</span>
     "You are the poem I never knew how to write,<br>
     the song that lives in the silence of my heart."
   </p>
@@ -394,14 +610,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
     <button class="card-btn" onclick="openModal('letterModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">💌</span>
-      <h3>Letters & Memories</h3>
-      <p>18 photos · 1 video · love note</p>
+      <h3><span class="editable-area" data-field="btnLetterTitle"><span class="editable-indicator">EDIT</span>Letters & Memories</span></h3>
+      <p><span class="editable-area" data-field="btnLetterDesc"><span class="editable-indicator">EDIT</span>18 photos · 1 video · love note</span></p>
     </button>
     <button class="card-btn" onclick="openModal('journeyModal')">
       <div class="btn-shimmer"></div>
       <span class="btn-icon">📖</span>
-      <h3>Our Love Journey</h3>
-      <p>14 beautiful moments</p>
+      <h3><span class="editable-area" data-field="btnJourneyTitle"><span class="editable-indicator">EDIT</span>Our Love Journey</span></h3>
+      <p><span class="editable-area" data-field="btnJourneyDesc"><span class="editable-indicator">EDIT</span>14 beautiful moments</span></p>
     </button>
   </div>
 </div>
@@ -410,26 +626,26 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('letterModal')">✕</button>
     <div class="letter-header-pink">
-      <h2>My Dearest Letter</h2>
-      <p>Written with every beat of my heart 💗</p>
+      <h2><span class="editable-area" data-field="letterHeader"><span class="editable-indicator">EDIT</span>My Dearest Letter</span></h2>
+      <p><span class="editable-area" data-field="letterSubheader"><span class="editable-indicator">EDIT</span>Written with every beat of my heart 💗</span></p>
     </div>
     <div class="letter-dark-section" id="letterDarkBg">
       <div class="dark-overlay"></div>
       <div class="dark-content">
         <span class="rose-icon">🌹</span>
-        <h3 class="dearest-title">My Dearest Jhinuk 🌹</h3>
-        <p class="dark-tag">✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</p>
+        <h3 class="dearest-title"><span class="editable-area" data-field="dearestTitle"><span class="editable-indicator">EDIT</span>My Dearest Jhinuk 🌹</span></h3>
+        <p class="dark-tag"><span class="editable-area" data-field="darkTag"><span class="editable-indicator">EDIT</span>✦ HAPPY ANNIVERSARY ✦ WITH ALL MY LOVE</span></p>
       </div>
     </div>
     <div class="letter-content">
-      <p class="letter-para">My Dearest Jhinuk,</p>
-      <p class="letter-para">Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</p>
-      <p class="letter-para">Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</p>
-      <p class="letter-para">Thank you for being you. Thank you for choosing us, again and again, every single day.</p>
-      <p class="letter-para" style="text-align:right;margin-top:30px;font-style:italic;">Yours, always 🌹</p>
+      <p class="letter-para editable-area" data-field="letterPara1"><span class="editable-indicator">EDIT</span>My Dearest Jhinuk,</p>
+      <p class="letter-para editable-area" data-field="letterPara2"><span class="editable-indicator">EDIT</span>Every single day with you is a blessing I never deserved but am endlessly grateful for. You are the reason I believe in magic — in the quiet kind, the kind that lives between ordinary moments.</p>
+      <p class="letter-para editable-area" data-field="letterPara3"><span class="editable-indicator">EDIT</span>Your laughter is my favourite melody. Your smile is the light I navigate by, even on the days when everything else feels dark.</p>
+      <p class="letter-para editable-area" data-field="letterPara4"><span class="editable-indicator">EDIT</span>Thank you for being you. Thank you for choosing us, again and again, every single day.</p>
+      <p class="letter-para editable-area" style="text-align:right;margin-top:30px;font-style:italic;" data-field="letterEnding"><span class="editable-indicator">EDIT</span>Yours, always 🌹</p>
     </div>
     <div class="gallery-section">
-      <h3>Memory Gallery</h3>
+      <h3><span class="editable-area" data-field="galleryHeading"><span class="editable-indicator">EDIT</span>Memory Gallery</span></h3>
       <div class="memory-grid" id="letterGrid"></div>
     </div>
   </div>
@@ -439,11 +655,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
   <div class="modal-container">
     <button class="close-btn" onclick="closeModal('journeyModal')">✕</button>
     <div class="letter-header-pink" style="background:linear-gradient(135deg,#880e4f,#ad1457);">
-      <h2>Our Love Journey</h2>
-      <p>Every moment captured forever 🎞️</p>
+      <h2><span class="editable-area" data-field="journeyHeader"><span class="editable-indicator">EDIT</span>Our Love Journey</span></h2>
+      <p><span class="editable-area" data-field="journeySubheader"><span class="editable-indicator">EDIT</span>Every moment captured forever 🎞️</span></p>
     </div>
     <div class="journey-intro">
-      <p>From the very first glance to forever — every frame is a piece of us.</p>
+      <p><span class="editable-area" data-field="journeyIntro"><span class="editable-indicator">EDIT</span>From the very first glance to forever — every frame is a piece of us.</span></p>
     </div>
     <div class="gallery-section">
       <div class="memory-grid" id="journeyGrid"></div>
@@ -464,19 +680,35 @@ html,body{height:100%;overflow:hidden;background:var(--bg-pink);font-family:'Mon
     <div class="image-note" id="imageNote">
       This is a beautiful memory we shared together... 💕
     </div>
+    <p class="admin-edit-hint admin-only">(Click note to edit)</p>
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
+<div class="admin-save-panel">
+  <button class="save-btn" onclick="saveAllData()">💾 SAVE CHANGES</button>
+  <div class="save-status" id="saveStatus">
+    <span id="saveIcon">✓</span>
+    <span id="saveText">Saved!</span>
+  </div>
+</div>
+
+<div class="admin-lock" onclick="adminLogin()">🔒</div>
+
 <script>
 const USER_PIN = "02052025";
+const ADMIN_PASS = "admin123";
 let currentImageIndex = 0;
 let currentGridId = '';
+let editableElements = {};
+let elementSizes = {};
+let currentEditElement = null;
+let imageNotes = {};
 
 // ===== MEDIA CONFIGURATION =====
-const BACKGROUND_IMAGE = "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/background.jpg";
+const BACKGROUND_IMAGE = "https://raw.githubusercontent.com/tusharx3/Anniversary-Image-2/main/background.png";
 
 const IMAGES = {
-  // Letter Gallery (18 images + 1 video)
   letterGrid: {
     1: {
       type: "image",
@@ -575,7 +807,6 @@ const IMAGES = {
     }
   },
 
-  // Journey Gallery (14 images)
   journeyGrid: {
     1: {
       type: "image",
@@ -650,6 +881,14 @@ const IMAGES = {
   }
 };
 
+// Initialize image notes from IMAGES
+Object.keys(IMAGES).forEach(gridId => {
+  Object.keys(IMAGES[gridId]).forEach(index => {
+    const noteKey = `${gridId}_${index}`;
+    imageNotes[noteKey] = IMAGES[gridId][index].note;
+  });
+});
+
 /* PETAL CANVAS */
 const canvas = document.getElementById('petals-canvas');
 const ctx = canvas.getContext('2d');
@@ -713,11 +952,143 @@ function unlock(){
       screen.style.display='none';
       document.getElementById('hero').classList.add('visible');
       loadImages();
+      loadAllData();
     },900);
   } else {
     input.classList.add('shake');input.value='';
     setTimeout(()=>input.classList.remove('shake'),400);
   }
+}
+
+/* ADMIN */
+function adminLogin(){
+  if(prompt("Admin Password:")===ADMIN_PASS){
+    document.body.classList.add('admin-mode');
+    setupEditableAreas();
+    document.getElementById('imageNote').contentEditable = 'true';
+    alert("Admin Mode ON ✓\n\n✨ Click text to edit\n✨ Right-click to change size\n✨ Edit image notes in fullscreen\n\nSave changes when done! 💾");
+  }
+}
+
+/* SIZE CONTROL */
+function openSizeControl(element, currentSize){
+  currentEditElement = element;
+  const popup = document.getElementById('sizeControlPopup');
+  const slider = document.getElementById('fontSizeSlider');
+  const display = document.getElementById('sizeValueDisplay');
+  
+  slider.value = parseInt(currentSize);
+  display.textContent = parseInt(currentSize) + 'px';
+  
+  popup.classList.add('active');
+  
+  slider.oninput = function(){
+    display.textContent = this.value + 'px';
+    element.style.fontSize = this.value + 'px';
+  };
+}
+
+function closeSizeControl(){
+  document.getElementById('sizeControlPopup').classList.remove('active');
+  currentEditElement = null;
+}
+
+function applySizeChange(){
+  if(currentEditElement){
+    const field = currentEditElement.getAttribute('data-field');
+    const newSize = document.getElementById('fontSizeSlider').value + 'px';
+    elementSizes[field] = newSize;
+  }
+  closeSizeControl();
+}
+
+/* EDITABLE AREAS */
+function setupEditableAreas(){
+  const allEditables = document.querySelectorAll('.editable-area');
+  
+  allEditables.forEach(el => {
+    el.addEventListener('click', function(e) {
+      if(!document.body.classList.contains('admin-mode')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const field = this.getAttribute('data-field');
+      const currentText = this.childNodes[this.childNodes.length - 1].textContent.trim();
+      const newText = prompt(`Edit "${field}":`, currentText);
+      
+      if(newText !== null && newText.trim() !== ""){
+        const indicator = this.querySelector('.editable-indicator');
+        this.innerHTML = '';
+        if(indicator) this.appendChild(indicator);
+        this.appendChild(document.createTextNode(newText));
+        editableElements[field] = newText;
+      }
+    });
+    
+    el.addEventListener('contextmenu', function(e) {
+      if(!document.body.classList.contains('admin-mode')) return;
+      e.preventDefault();
+      const currentSize = window.getComputedStyle(this).fontSize;
+      openSizeControl(this, currentSize);
+    });
+  });
+}
+
+/* SAVE/LOAD */
+function saveAllData(){
+  const data = {
+    editableElements,
+    elementSizes,
+    imageNotes
+  };
+  
+  try {
+    localStorage.setItem('anniversaryData', JSON.stringify(data));
+    showSaveStatus(true, 'All changes saved! 💾');
+  } catch(e) {
+    showSaveStatus(false, 'Error saving ⚠️');
+  }
+}
+
+function loadAllData(){
+  try {
+    const savedData = localStorage.getItem('anniversaryData');
+    if(savedData){
+      const data = JSON.parse(savedData);
+      editableElements = data.editableElements || {};
+      elementSizes = data.elementSizes || {};
+      imageNotes = {...imageNotes, ...data.imageNotes};
+      
+      Object.keys(editableElements).forEach(field => {
+        const element = document.querySelector(`[data-field="${field}"]`);
+        if(element){
+          const indicator = element.querySelector('.editable-indicator');
+          element.innerHTML = '';
+          if(indicator) element.appendChild(indicator);
+          element.appendChild(document.createTextNode(editableElements[field]));
+        }
+      });
+      
+      Object.keys(elementSizes).forEach(field => {
+        const element = document.querySelector(`[data-field="${field}"]`);
+        if(element) element.style.fontSize = elementSizes[field];
+      });
+    }
+  } catch(e) {
+    console.error('Load error:', e);
+  }
+}
+
+function showSaveStatus(success, message){
+  const status = document.getElementById('saveStatus');
+  const icon = document.getElementById('saveIcon');
+  const text = document.getElementById('saveText');
+  
+  status.className = 'save-status show ' + (success ? 'success' : 'error');
+  icon.textContent = success ? '✓' : '✕';
+  text.textContent = message;
+  
+  setTimeout(() => status.classList.remove('show'), 3000);
 }
 
 /* LOAD IMAGES */
@@ -810,7 +1181,7 @@ function revealSlots(gridId){
   document.querySelectorAll('#'+gridId+' .memory-slot').forEach((s,i)=>setTimeout(()=>s.classList.add('revealed'),150+i*60));
 }
 
-/* FULLSCREEN VIEWER */
+/* FULLSCREEN */
 function openFullscreen(slotElement){
   const index = parseInt(slotElement.getAttribute('data-index'));
   const gridId = slotElement.getAttribute('data-grid');
@@ -828,7 +1199,9 @@ function openFullscreen(slotElement){
   const imageNote = document.getElementById('imageNote');
 
   imageNumber.textContent = data.type === "video" ? `VIDEO #${index}` : `MEMORY #${index}`;
-  imageNote.textContent = data.note || 'A beautiful memory... 💕';
+  
+  const noteKey = `${gridId}_${index}`;
+  imageNote.textContent = imageNotes[noteKey] || data.note;
 
   fullscreenVideo.pause();
   fullscreenVideo.removeAttribute('src');
@@ -855,7 +1228,6 @@ function closeFullscreen(){
   const fullscreenVideo = document.getElementById('fullscreenVideo');
 
   fullscreenVideo.pause();
-
   viewer.classList.remove('active');
 
   setTimeout(()=>{
@@ -894,6 +1266,13 @@ function navigateImage(direction){
   setTimeout(() => openFullscreen(newSlot), 300);
 }
 
+document.getElementById('imageNote').addEventListener('blur', function(){
+  if(document.body.classList.contains('admin-mode')){
+    const noteKey = `${currentGridId}_${currentImageIndex}`;
+    imageNotes[noteKey] = this.textContent;
+  }
+});
+
 document.addEventListener('keydown', function(e){
   const viewer = document.getElementById('fullscreenViewer');
   if(viewer.classList.contains('active')){
@@ -901,9 +1280,13 @@ document.addEventListener('keydown', function(e){
     if(e.key === 'ArrowLeft') navigateImage(-1);
     if(e.key === 'ArrowRight') navigateImage(1);
   }
+  
+  if(document.getElementById('sizeControlPopup').classList.contains('active') && e.key === 'Escape'){
+    closeSizeControl();
+  }
 });
 
-/* MOUSE SPARKLES */
+/* SPARKLES */
 document.addEventListener('mousemove',e=>{
   if(Math.random()>0.92){
     const s=document.createElement('div');s.className='sparkle';
